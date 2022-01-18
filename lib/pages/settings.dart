@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:infinite_buy/styles/style.dart';
-import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:math' as math;
+
+import '../tickers_controller.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -18,7 +20,7 @@ class SettingPage extends StatelessWidget {
 }
 
 class ProfileInfo extends StatelessWidget {
-  const ProfileInfo({Key? key}) : super(key: key);
+  final Controller c = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +35,18 @@ class ProfileInfo extends StatelessWidget {
             Icons.format_quote,
             color: fontColorGrey,
           ),
-          Text(
-            '사고 팔고 쉬어라.\n쉬는 것도 투자다.',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20),
+          Container(
+            padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+            child: Text(
+              // c.famousSaying,
+              '사고 팔고 쉬어라. \n 쉬는 것도 투자다.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 20,
+                  fontStyle: FontStyle.italic,
+                  height: 1.2,
+                  letterSpacing: 0.2),
+            ),
           ),
           Transform(
             alignment: Alignment.center,
@@ -74,9 +84,7 @@ class Menus extends StatelessWidget {
         _MenuDivider(),
         _MenuFuncTile(context: context, text: '앱 개발 후원하기'),
         _MenuDivider(),
-        _MenuURLTile(
-            text: '앱 관련 문의하기',
-            url: 'mailto:jmjeon3155@gmail.com'),
+        _MenuURLTile(text: '앱 관련 문의하기', url: 'mailto:jmjeon3155@gmail.com'),
         _MenuDivider(),
       ],
     );
@@ -96,7 +104,8 @@ Widget _MenuFuncTile({required BuildContext context, required String text}) {
         ),
         actions: <Widget>[
           TextButton(
-              onPressed: () => Clipboard.setData(ClipboardData(text: '신한 110-394-635951')),
+              onPressed: () =>
+                  Clipboard.setData(ClipboardData(text: '신한 110-394-635951')),
               child: Text('복사')),
           TextButton(
             onPressed: () => Navigator.pop(context, 'OK'),
