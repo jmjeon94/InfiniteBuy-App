@@ -247,9 +247,7 @@ class TickerWidget extends StatelessWidget {
                             topLeft: Radius.circular(20),
                             bottomLeft: Radius.circular(20),
                           ),
-                          color: process_ratio > 50
-                              ? Colors.redAccent[700]
-                              : btnColorPurple),
+                          color: btnColorPurple),
                     ),
                   );
                 }),
