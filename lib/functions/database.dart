@@ -138,7 +138,7 @@ class DBTestPage extends StatelessWidget {
           onPressed: () async {
             print('btn clicked');
 
-            get_price_history(ticker_name: 'TQQQ', start_date: '2022-1-1');
+            get_famous_saying();
           },
           icon: Icon(Icons.delete),
         ),

@@ -10,7 +10,6 @@ import 'package:infinite_buy/tickers_controller.dart';
 var api_url = 'http://3.84.99.145:9999';
 var jm_api_url = 'http://3.84.99.145:9999';
 
-
 Future<bool> update_close_price() async {
   final Controller c = Get.find();
 
@@ -84,6 +83,29 @@ Future<Map> get_price_history(
     return resp;
   } else if (response.statusCode == 403) {
     print('get price history api 실패 403');
+    throw Exception('Failed to get api');
+  } else {
+    throw Exception('Failed to get api');
+  }
+}
+
+Future<String> get_famous_saying() async {
+  final Controller c = Get.find();
+  final response = await http
+      .get(
+    Uri.parse('${jm_api_url}/getFamousSaying'),
+  )
+      .timeout(Duration(milliseconds: 3000), onTimeout: () {
+    return http.Response('Error', 403);
+  });
+
+  if (response.statusCode == 200) {
+    var resp = response.body;
+    // 설정 창의 text 수정
+    c.setFamousSaying(resp);
+    return resp;
+  } else if (response.statusCode == 403) {
+    print('get famous saying api 실패 403');
     throw Exception('Failed to get api');
   } else {
     throw Exception('Failed to get api');
