@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:infinite_buy/functions/simulator.dart';
-import 'package:infinite_buy/functions/http_api.dart';
 import 'package:infinite_buy/pages/modify_ticker.dart';
 import 'package:infinite_buy/styles/style.dart';
 import 'package:infinite_buy/tickers_controller.dart';
@@ -479,7 +477,7 @@ class SellMethod extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      '\$${(data.avg_price * 1.05).toStringAsFixed(
+                      '\$${(data.avg_price * 1.1).toStringAsFixed(
                           2)} x ${n_sell[0]}개',
                       style: _bodyMethodInfoTextStyle,
                     ),
