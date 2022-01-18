@@ -6,11 +6,9 @@ import 'package:get/get.dart';
 import 'package:infinite_buy/functions/database.dart';
 import 'package:infinite_buy/pages/order_summary.dart';
 import 'package:infinite_buy/pages/settings.dart';
-import 'package:intl/intl.dart';
 
 import 'functions/http_api.dart';
 import 'pages/ticker_list.dart';
-import 'pages/chart.dart';
 import 'tickers_controller.dart';
 import 'styles/style.dart';
 
@@ -33,7 +31,6 @@ class MyApp extends StatelessWidget {
       supportedLocales: [
         const Locale('ko', 'KR'),
       ],
-
       theme: ThemeData(
         scaffoldBackgroundColor: bgColor,
         // fontFamily: 'Georgia', // 폰트설정
@@ -42,7 +39,6 @@ class MyApp extends StatelessWidget {
               displayColor: fontColorWhite,
             ),
       ),
-
       home: SplashScreen(),
     );
   }
@@ -64,6 +60,9 @@ class _SplashScreenState extends State<SplashScreen> {
     // price, rsi값 api 요청
     update_cur_rsi();
     update_close_price();
+
+    // 명언 요청
+    get_famous_saying();
 
     Timer(
       Duration(seconds: 2),
@@ -106,8 +105,8 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     List _widgetOptions = [
       TickerList(),
-      DBTestPage(),
       OrderSummaryPage(),
+      DBTestPage(),
       SettingPage()
     ];
 
@@ -140,12 +139,12 @@ class _MainPageState extends State<MainPage> {
             icon: Icon(Icons.attach_money),
           ),
           BottomNavigationBarItem(
-            label: 'VR',
-            icon: Icon(Icons.trending_up_outlined),
+            label: '주문요약',
+            icon: Icon(Icons.book_rounded),
           ),
           BottomNavigationBarItem(
-            label: '포트폴리오',
-            icon: Icon(Icons.book_rounded),
+            label: 'VR',
+            icon: Icon(Icons.trending_up_outlined),
           ),
           BottomNavigationBarItem(
             label: '설정',
