@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'functions/database.dart' as db;
@@ -94,6 +92,12 @@ class Ticker {
 
 // Controller Variables
 class Controller extends GetxController {
+  String famousSaying = '';
+
+  setFamousSaying(String value){
+    famousSaying = value;
+  }
+
   List<Map<String, dynamic>> tickers_price_list = [
     {
       'name': 'SOXL',
