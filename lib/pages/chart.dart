@@ -142,9 +142,7 @@ class _LineChart extends StatelessWidget {
       barWidth: 3,
       isStrokeCapRound: true,
       dotData: FlDotData(show: false),
-      belowBarData: BarAreaData(show: false, colors: [
-        const Color(0x00aa4cfc),
-      ]),
+      belowBarData: BarAreaData(show: false),
       spots: price_data['avg_price']);
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
@@ -161,10 +159,9 @@ class _LineChart extends StatelessWidget {
       // colors: const [Color(0x99aa4cfc)],
       colors: [const Color(0xffaa4cfc)],
 
-
-      barWidth: 3,
+      barWidth: 2,
       isStrokeCapRound: true,
-      dotData: FlDotData(show: true),
+      dotData: FlDotData(show: true, ),
       spots: price_data['avg_price']);
 
   LineChartBarData get lineChartBarData2_2 => LineChartBarData(
@@ -173,7 +170,7 @@ class _LineChart extends StatelessWidget {
       // colors: const [Color(0x4427b6fc)],
       colors: const [Color(0xff27b6fc)],
 
-      barWidth: 3,
+      barWidth: 2,
       isStrokeCapRound: true,
       dotData: FlDotData(show: true),
       belowBarData: BarAreaData(show: false),
