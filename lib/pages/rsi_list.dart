@@ -1,12 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:infinite_buy/functions/admob_ids.dart';
 import 'package:infinite_buy/pages/add_ticker.dart';
 import 'package:infinite_buy/styles/style.dart';
 import 'package:get/get.dart';
 import 'package:infinite_buy/tickers_controller.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 // RSI List
 class RSIList extends StatefulWidget {

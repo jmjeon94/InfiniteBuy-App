@@ -5,9 +5,10 @@ import 'package:infinite_buy/pages/ticker_info.dart';
 import 'package:infinite_buy/styles/style.dart';
 import 'package:infinite_buy/tickers_controller.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+
 import 'dart:io';
 import 'package:infinite_buy/functions/admob_ids.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 const _buyTextStyle = TextStyle(fontSize: 18, color: fontColorGrey);
 const _sellTextStyle = TextStyle(fontSize: 18, color: fontColorGrey);
