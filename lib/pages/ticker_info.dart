@@ -251,7 +251,6 @@ class BuySellInfo extends StatelessWidget {
           // Version Change Button
           Row(
             children: [
-              //obx update 용
               Container(
                   margin: EdgeInsets.only(left: 20),
                   width: 30,
