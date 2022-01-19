@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:infinite_buy/functions/admob_ids.dart';
 import 'package:infinite_buy/pages/add_ticker.dart';
 import 'package:infinite_buy/styles/style.dart';
 import 'package:get/get.dart';
 import 'package:infinite_buy/tickers_controller.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 // RSI List
 class RSIList extends StatefulWidget {
@@ -15,7 +19,7 @@ class RSIList extends StatefulWidget {
 class _RSIListState extends State<RSIList> {
   final Controller c = Get.find();
 
-  void _onTap(String ticker_name) {
+  void _moveAddPage(String ticker_name) {
     Get.to(() => AddTickerPage(
           ticker_name: ticker_name,
         ));
@@ -43,13 +47,25 @@ class _RSIListState extends State<RSIList> {
                     separatorBuilder: (BuildContext context, int index) =>
                         const Divider(
                       color: Colors.white38,
+                          height: 8,
                     ),
-                    itemCount: c.tickers_price_list.length,
+                    itemCount: c.tickers_price_list.length ,
                     itemBuilder: (BuildContext context, int idx) {
+                      // // 5번째 인덱스는 배너광고
+                      // if (idx == 5) {
+                      //   return Container(
+                      //     child: AdWidget(ad: banner!,),
+                      //     height: 60,
+                      //     width: double.infinity,
+                      //   );
+                      // }
+                      // var real_idx = idx < 5 ? idx : idx - 1;
+                      var real_idx = idx;
                       return ListTile(
-                        title: RSIWidget(idx),
+                        title: RSIWidget(real_idx),
                         onTap: () {
-                          _onTap(c.tickers_price_list[idx]['name'].toString());
+                          _moveAddPage(c.tickers_price_list[real_idx]['name']
+                              .toString());
                         },
                       );
                     },
