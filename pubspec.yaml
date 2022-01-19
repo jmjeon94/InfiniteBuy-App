@@ -39,6 +39,7 @@ dependencies:
   fl_chart: ^0.40.6
   url_launcher: ^6.0.17
   syncfusion_flutter_datepicker: ^19.4.41
+  google_mobile_ads: ^1.0.1
   flutter_localizations:
     sdk: flutter
 

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:infinite_buy/functions/database.dart';
 import 'package:infinite_buy/pages/order_summary.dart';
 import 'package:infinite_buy/pages/settings.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'functions/http_api.dart';
 import 'pages/ticker_list.dart';
@@ -13,6 +14,9 @@ import 'tickers_controller.dart';
 import 'styles/style.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
+
   runApp(const MyApp());
 }
 
