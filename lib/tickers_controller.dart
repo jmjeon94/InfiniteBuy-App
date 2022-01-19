@@ -31,16 +31,16 @@ class Ticker {
       this.cur_price,
       this.start_date,
       this.version}) {
-    this.buy_balance = this.n * this.avg_price;
-    this.profit_ratio = this.n > 0
-        ? (this.cur_price - this.avg_price) / this.avg_price * 100
+    buy_balance = n * avg_price;
+    profit_ratio = n > 0
+        ? (cur_price - avg_price) / avg_price * 100
         : 0;
-    this.process_ratio = this.buy_balance / this.invest_balance * 100;
+    process_ratio = buy_balance / invest_balance * 100;
 
     // version 미입력시 2.1로 입력
-    this.version = this.version ?? '2.1';
+    version = version ?? '2.1';
     // start_data 미입력시 오늘날짜 입력
-    this.start_date = this.start_date ??
+    start_date = start_date ??
         DateFormat('yyyy-M-d').format(DateTime.now()).toString();
   }
 
