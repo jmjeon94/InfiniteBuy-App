@@ -156,8 +156,9 @@ class _LineChart extends StatelessWidget {
 
   LineChartBarData get lineChartBarData2_1 => LineChartBarData(
       isCurved: false,
-      // colors: const [Color(0x99aa4cfc)],
-      colors: [const Color(0xffaa4cfc)],
+      // colors: const [Color(0x99aa4cfc)], // 매우연한색
+      colors: const [Color(0xc8aa4cfc)], // 연한색
+      // colors: [const Color(0xffaa4cfc)], // 진한색
 
       barWidth: 2,
       isStrokeCapRound: true,
@@ -168,7 +169,8 @@ class _LineChart extends StatelessWidget {
       isCurved: true,
       curveSmoothness: 0,
       // colors: const [Color(0x4427b6fc)],
-      colors: const [Color(0xff27b6fc)],
+      colors: const [Color(0xb427b6fc)],
+      // colors: const [Color(0xff27b6fc)],
 
       barWidth: 2,
       isStrokeCapRound: true,
