@@ -110,7 +110,7 @@ class _MainPageState extends State<MainPage> {
     List _widgetOptions = [
       TickerList(),
       OrderSummaryPage(),
-      DBTestPage(),
+      // DBTestPage(),
       SettingPage()
     ];
 
@@ -146,10 +146,10 @@ class _MainPageState extends State<MainPage> {
             label: '주문요약',
             icon: Icon(Icons.book_rounded),
           ),
-          BottomNavigationBarItem(
-            label: 'VR',
-            icon: Icon(Icons.trending_up_outlined),
-          ),
+          // BottomNavigationBarItem(
+          //   label: 'VR',
+          //   icon: Icon(Icons.trending_up_outlined),
+          // ),
           BottomNavigationBarItem(
             label: '설정',
             icon: Icon(Icons.settings),

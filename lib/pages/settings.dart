@@ -104,8 +104,14 @@ Widget _MenuFuncTile({required BuildContext context, required String text}) {
         ),
         actions: <Widget>[
           TextButton(
-              onPressed: () =>
-                  Clipboard.setData(ClipboardData(text: '신한 110-394-635951')),
+              onPressed: () {
+                Get.snackbar('복사완료 \u{1F44D}', '',
+                    colorText: Colors.white,
+                    duration: Duration(seconds: 1),
+                    snackPosition: SnackPosition.BOTTOM);
+
+                Clipboard.setData(ClipboardData(text: '신한 110-394-635951'));
+              },
               child: Text('복사')),
           TextButton(
             onPressed: () => Navigator.pop(context, 'OK'),

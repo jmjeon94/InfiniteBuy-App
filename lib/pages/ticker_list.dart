@@ -132,10 +132,10 @@ class _TickerListState extends State<TickerList> {
                           c.remove_ticker_using_ticker_name(
                               c.tickers[idx].name);
 
-                          Get.snackbar('${c.tickers[idx].name} 종목 삭제됨', '',
-                              colorText: Colors.white,
-                              duration: Duration(seconds: 1),
-                              snackPosition: SnackPosition.BOTTOM);
+                          // Get.snackbar('${c.tickers[idx].name} 종목 삭제됨', '',
+                          //     colorText: Colors.white,
+                          //     duration: Duration(seconds: 1),
+                          //     snackPosition: SnackPosition.BOTTOM);
                         }
                       },
                       child: ListTile(
