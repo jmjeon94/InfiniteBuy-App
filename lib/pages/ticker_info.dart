@@ -8,7 +8,7 @@ import 'package:infinite_buy/functions/calculate_n.dart';
 import 'chart.dart';
 
 const TextStyle _titleTextStyle =
-TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
+    TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
 
 const TextStyle _bodyDefaultInfoTextStyle = TextStyle(fontSize: 14);
 const TextStyle _bodyMethodInfoTextStyle = TextStyle(fontSize: 17);
@@ -17,6 +17,7 @@ class TickerInfo extends StatelessWidget {
   var idx;
 
   TickerInfo(this.idx);
+
   final Controller c = Get.find();
 
   @override
@@ -61,7 +62,16 @@ class TickerInfo extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            Obx(()=>CustomLineChart(ticker: c.tickers[idx])),
+            Obx(() => CustomLineChart(ticker: c.tickers[idx])),
+            SizedBox(
+              height: 8,
+            ),
+            Center(
+                // padding: EdgeInsets.all(12),
+                child: Text(
+              '위 그래프는 시작 날짜에 따른 시뮬레이션 결과로 실제와 다를 수 있습니다.',
+              style: textStyleWarning,
+            ))
           ],
         ));
   }
@@ -113,7 +123,7 @@ class TickerTitleWidget extends StatelessWidget {
               radius: 60.0,
               lineWidth: 10.0,
               percent:
-              data.process_ratio >= 100 ? 1.0 : data.process_ratio / 100,
+                  data.process_ratio >= 100 ? 1.0 : data.process_ratio / 100,
               center: Text(
                 "${data.process_ratio.toStringAsFixed(0)}%",
               ),
@@ -134,90 +144,87 @@ class DefaultInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() =>
-        Container(
-            margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
-            decoration: boxDecoration,
-            child: Column(
+    return Obx(() => Container(
+        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+        padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
+        decoration: boxDecoration,
+        child: Column(
+          children: [
+            Visibility(
+              // for Obx build
+              child: Text('${c.tickers[data.idx].toString()}'),
+              visible: false,
+            ),
+            Text(
+              '기본정보',
+              style: _titleTextStyle,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Visibility(
-                  // for Obx build
-                  child: Text('${c.tickers[data.idx].toString()}'),
-                  visible: false,
-                ),
-                Text(
-                  '기본정보',
-                  style: _titleTextStyle,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                Column(
                   children: [
-                    Column(
-                      children: [
-                        Text(
-                          '투자금',
-                          style: _bodyDefaultInfoTextStyle,
-                        ),
-                        Text(
-                          '평단가',
-                          style: _bodyDefaultInfoTextStyle,
-                        ),
-                        Text(
-                          '현재가',
-                          style: _bodyDefaultInfoTextStyle,
-                        ),
-                        Text(
-                          '보유수량',
-                          style: _bodyDefaultInfoTextStyle,
-                        ),
-                      ],
+                    Text(
+                      '투자금',
+                      style: _bodyDefaultInfoTextStyle,
                     ),
-                    Column(
-                      children: [
-                        Text('\$${data.invest_balance}',
-                            style: _bodyDefaultInfoTextStyle),
-                        Text('\$${(data.avg_price).toStringAsFixed(2)}',
-                            style: _bodyDefaultInfoTextStyle),
-                        Text('\$${data.cur_price}'),
-                        Text('${data.n}', style: _bodyDefaultInfoTextStyle),
-                      ],
+                    Text(
+                      '평단가',
+                      style: _bodyDefaultInfoTextStyle,
                     ),
-                    Column(
-                      children: [
-                        Text(
-                          '시작 날짜',
-                          style: _bodyDefaultInfoTextStyle,
-                        ),
-                        Text(
-                          '누적 매수금',
-                          style: _bodyDefaultInfoTextStyle,
-                        ),
-                        Text('1회 매수금', style: _bodyDefaultInfoTextStyle),
-                        Text('1회 매수량', style: _bodyDefaultInfoTextStyle),
-                      ],
+                    Text(
+                      '현재가',
+                      style: _bodyDefaultInfoTextStyle,
                     ),
-                    Column(
-                      children: [
-                        Text('${data.start_date}'),
-                        Text('\$${data.buy_balance.toStringAsFixed(2)}',
-                            style: _bodyDefaultInfoTextStyle),
-                        Text('\$${(data.invest_balance / 40).toStringAsFixed(
-                            1)}',
-                            style: _bodyDefaultInfoTextStyle),
-                        Text(
-                            '${(data.cur_price > 0 ? data.invest_balance / 40 ~/
-                                data.cur_price : 0).toStringAsFixed(0)}',
-                            style: _bodyDefaultInfoTextStyle),
-                      ],
+                    Text(
+                      '보유수량',
+                      style: _bodyDefaultInfoTextStyle,
                     ),
                   ],
                 ),
+                Column(
+                  children: [
+                    Text('\$${data.invest_balance}',
+                        style: _bodyDefaultInfoTextStyle),
+                    Text('\$${(data.avg_price).toStringAsFixed(2)}',
+                        style: _bodyDefaultInfoTextStyle),
+                    Text('\$${data.cur_price}'),
+                    Text('${data.n}', style: _bodyDefaultInfoTextStyle),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text(
+                      '시작 날짜',
+                      style: _bodyDefaultInfoTextStyle,
+                    ),
+                    Text(
+                      '누적 매수금',
+                      style: _bodyDefaultInfoTextStyle,
+                    ),
+                    Text('1회 매수금', style: _bodyDefaultInfoTextStyle),
+                    Text('1회 매수량', style: _bodyDefaultInfoTextStyle),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text('${data.start_date}'),
+                    Text('\$${data.buy_balance.toStringAsFixed(2)}',
+                        style: _bodyDefaultInfoTextStyle),
+                    Text('\$${(data.invest_balance / 40).toStringAsFixed(1)}',
+                        style: _bodyDefaultInfoTextStyle),
+                    Text(
+                        '${(data.cur_price > 0 ? data.invest_balance / 40 ~/ data.cur_price : 0).toStringAsFixed(0)}',
+                        style: _bodyDefaultInfoTextStyle),
+                  ],
+                ),
               ],
-            )));
+            ),
+          ],
+        )));
   }
 }
 
@@ -230,8 +237,7 @@ class BuySellInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() =>
-        Stack(children: [
+    return Obx(() => Stack(children: [
           Visibility(
             child: Text(c.tickers.toString()),
             visible: false,
@@ -310,9 +316,7 @@ class BuyMethod extends StatelessWidget {
             SizedBox(height: 10),
             Center(
                 child: Text(
-                    '1회차는 장중 매수, LOC매수 선택하여 ${(data.cur_price > 0 ? data
-                        .invest_balance / 40 ~/ data.cur_price : 0)
-                        .toStringAsFixed(0)}개 매수',
+                    '1회차는 장중 매수, LOC매수 선택하여 ${(data.cur_price > 0 ? data.invest_balance / 40 ~/ data.cur_price : 0).toStringAsFixed(0)}주 매수',
                     style: _bodyMethodInfoTextStyle)),
           ],
         ),
@@ -342,12 +346,11 @@ class BuyMethod extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      '\$${data.avg_price.toStringAsFixed(2)} x ${n_buy[0]}개',
+                      '\$${data.avg_price.toStringAsFixed(2)} x ${n_buy[0]}주',
                       style: _bodyMethodInfoTextStyle,
                     ),
                     Text(
-                      '\$${(data.cur_price * 1.15).toStringAsFixed(
-                          2)} x ${n_buy[1]}개',
+                      '\$${(data.cur_price * 1.15).toStringAsFixed(2)} x ${n_buy[1]}주',
                       style: _bodyMethodInfoTextStyle,
                     )
                   ],
@@ -382,12 +385,11 @@ class BuyMethod extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      '\$${data.avg_price.toStringAsFixed(2)} x ${n_buy[0]}개',
+                      '\$${data.avg_price.toStringAsFixed(2)} x ${n_buy[0]}주',
                       style: _bodyMethodInfoTextStyle,
                     ),
                     Text(
-                      '\$${(data.avg_price * 1.05).toStringAsFixed(
-                          2)} x ${n_buy[1]}개',
+                      '\$${(data.avg_price * 1.05).toStringAsFixed(2)} x ${n_buy[1]}주',
                       style: _bodyMethodInfoTextStyle,
                     )
                   ],
@@ -421,9 +423,7 @@ class BuyMethod extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      '\$${data.avg_price.toStringAsFixed(2)} x ${(data
-                          .cur_price > 0 ? data.invest_balance / 40 ~/
-                          data.cur_price : 0).toStringAsFixed(0)}개',
+                      '\$${data.avg_price.toStringAsFixed(2)} x ${(data.cur_price > 0 ? data.invest_balance / 40 ~/ data.cur_price : 0).toStringAsFixed(0)}주',
                       style: _bodyMethodInfoTextStyle,
                     ),
                   ],
@@ -476,8 +476,7 @@ class SellMethod extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      '\$${(data.avg_price * 1.1).toStringAsFixed(
-                          2)} x ${n_sell[0]}개',
+                      '\$${(data.avg_price * 1.1).toStringAsFixed(2)} x ${n_sell[0]}주',
                       style: _bodyMethodInfoTextStyle,
                     ),
                   ],
@@ -519,13 +518,11 @@ class SellMethod extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      '\$${(data.avg_price * 1.05).toStringAsFixed(
-                          2)} x ${n_sell[0]}개',
+                      '\$${(data.avg_price * 1.05).toStringAsFixed(2)} x ${n_sell[0]}주',
                       style: _bodyMethodInfoTextStyle,
                     ),
                     Text(
-                      '\$${(data.avg_price * 1.1).toStringAsFixed(
-                          2)} x ${n_sell[1]}개',
+                      '\$${(data.avg_price * 1.1).toStringAsFixed(2)} x ${n_sell[1]}주',
                       style: _bodyMethodInfoTextStyle,
                     ),
                   ],
@@ -571,18 +568,15 @@ class SellMethod extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      '\$${(data.avg_price).toStringAsFixed(
-                          2)} x ${n_sell[0]}개',
+                      '\$${(data.avg_price).toStringAsFixed(2)} x ${n_sell[0]}주',
                       style: _bodyMethodInfoTextStyle,
                     ),
                     Text(
-                      '\$${(data.avg_price * 1.05).toStringAsFixed(
-                          2)} x ${n_sell[1]}개',
+                      '\$${(data.avg_price * 1.05).toStringAsFixed(2)} x ${n_sell[1]}주',
                       style: _bodyMethodInfoTextStyle,
                     ),
                     Text(
-                      '\$${(data.avg_price * 1.1).toStringAsFixed(
-                          2)} x ${n_sell[2]}개',
+                      '\$${(data.avg_price * 1.1).toStringAsFixed(2)} x ${n_sell[2]}주',
                       style: _bodyMethodInfoTextStyle,
                     )
                   ],
