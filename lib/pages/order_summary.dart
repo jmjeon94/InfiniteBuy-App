@@ -10,9 +10,10 @@ import 'dart:io';
 import 'package:infinite_buy/functions/admob_ids.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-const _buyTextStyle = TextStyle(fontSize: 18, color: fontColorGrey);
-const _sellTextStyle = TextStyle(fontSize: 18, color: fontColorGrey);
-const _titleTextStyle = TextStyle(fontSize: 14, fontWeight: FontWeight.bold);
+const _buyTextStyle = TextStyle(fontSize: 17, color: fontColorGrey);
+const _sellTextStyle = TextStyle(fontSize: 17, color: fontColorGrey);
+const _titleTextStyle = TextStyle(fontSize: 15, fontWeight: FontWeight.bold);
+const _emptyTextStyle = TextStyle(fontSize: 20, color: fontColorGrey);
 
 class OrderSummaryPage extends StatefulWidget {
   @override
@@ -46,23 +47,34 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
           child: AdWidget(ad: banner!),
         ),
         Expanded(
-          child: Obx(() => ListView.separated(
-                itemCount: c.tickers.length,
-                itemBuilder: (context, idx) {
-                  return ListTile(
-                    title: _SummaryTile(ticker: c.tickers[idx]),
-                    minVerticalPadding: 0,
-                    contentPadding: EdgeInsets.all(0),
-                    onTap: () {
-                      Get.to(() => TickerInfo(idx));
-                    },
-                  );
-                },
-                separatorBuilder: (context, idx) => Divider(
-                  color: bgColor,
-                  height: 5,
+          child: Obx(() => c.tickers.length == 0
+              ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                  '무한매수 페이지에서 종목을 등록해주세요.',
+                  style: _emptyTextStyle,
                 ),
-              )),
+                  SizedBox(height: 100,)
+                ],
+              )
+              : ListView.separated(
+                  itemCount: c.tickers.length,
+                  itemBuilder: (context, idx) {
+                    return ListTile(
+                      title: _SummaryTile(ticker: c.tickers[idx]),
+                      minVerticalPadding: 0,
+                      contentPadding: EdgeInsets.all(0),
+                      onTap: () {
+                        Get.to(() => TickerInfo(idx));
+                      },
+                    );
+                  },
+                  separatorBuilder: (context, idx) => Divider(
+                    color: bgColor,
+                    height: 5,
+                  ),
+                )),
         ),
       ],
     );
@@ -79,7 +91,7 @@ class _SummaryTile extends StatelessWidget {
     var orders = get_orders(ticker: ticker);
 
     return Container(
-        padding: EdgeInsets.symmetric(vertical: 10),
+        padding: EdgeInsets.symmetric(vertical: 15),
         decoration: BoxDecoration(color: fgColor),
         child: Row(
           children: [
@@ -215,7 +227,7 @@ class _SummaryTileInfo extends StatelessWidget {
 Map get_orders({required Ticker ticker}) {
   String ver = ticker.version;
   num one_balance = ticker.invest_balance / 40;
-  int one_n = one_balance ~/ ticker.cur_price;
+  int one_n = ticker.cur_price > 0 ? one_balance ~/ ticker.cur_price : 0;
   num process_ratio = ticker.process_ratio;
 
   Map orders = {
@@ -281,7 +293,7 @@ Map _make_order({
 }) {
   Map order = {
     'method': method,
-    'order': price == null ? '$n개' : '\$${price.toStringAsFixed(2)} x $n개',
+    'order': price == null ? '$n주' : '\$${price.toStringAsFixed(2)} x $n주',
   };
 
   return order;
