@@ -177,7 +177,7 @@ class _AddTickerPageState extends State<AddTickerPage> {
                       Get.back();
                       Get.back();
 
-                      Get.snackbar('$ticker_name 종목 추가 완료', '',
+                      Get.snackbar('$ticker_name 종목 추가 완료 \u{2728}', '',
                           colorText: Colors.white,
                           duration: Duration(seconds: 1),
                           snackPosition: SnackPosition.BOTTOM);
