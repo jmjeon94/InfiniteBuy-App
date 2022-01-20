@@ -17,7 +17,20 @@ class SettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
-      children: [ProfileInfo(), Menus()],
+      children: [
+        ProfileInfo(),
+        Menus(),
+        Expanded(
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [Text('v$CUR_VERSION', style: TextStyle(color: fontColorTitleGrey),)],
+            ),
+          ),
+        )
+      ],
     );
   }
 }
