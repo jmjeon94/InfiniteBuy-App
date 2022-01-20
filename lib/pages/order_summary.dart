@@ -13,7 +13,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 const _buyTextStyle = TextStyle(fontSize: 17, color: fontColorGrey);
 const _sellTextStyle = TextStyle(fontSize: 17, color: fontColorGrey);
 const _titleTextStyle = TextStyle(fontSize: 15, fontWeight: FontWeight.bold);
-const _emptyTextStyle = TextStyle(fontSize: 20, color: fontColorGrey);
+const _emptyTextStyle = TextStyle(fontSize: 17, color: fontColorGrey);
 
 class OrderSummaryPage extends StatefulWidget {
   @override
