@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:infinite_buy/functions/versions.dart';
 import 'package:infinite_buy/styles/style.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:math' as math;
@@ -84,7 +87,7 @@ class Menus extends StatelessWidget {
         _MenuDivider(),
         _MenuFuncTile(context: context, text: '앱 개발 후원하기'),
         _MenuDivider(),
-        _MenuURLTile(text: '앱 관련 문의하기', url: 'mailto:jmjeon3155@gmail.com'),
+        _MenuURLTile(text: '앱 관련 문의하기', url: _emailLaunchUri.toString()),
         _MenuDivider(),
       ],
     );
@@ -163,3 +166,20 @@ Widget _MenuDivider() {
     height: 0,
   );
 }
+
+String? _encodeQueryParameters(Map<String, String> params) {
+  return params.entries
+      .map((e) =>
+          '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+      .join('&');
+}
+
+final Uri _emailLaunchUri = Uri(
+  scheme: 'mailto',
+  path: 'jmjeon3155@gmail.com',
+  query: _encodeQueryParameters(<String, String>{
+    'subject': '[문의] LetMeBuy 어플 문의',
+    'body':
+        'Platform: ${Platform.isIOS ? 'IOS' : 'Android'}\n Version: ${CUR_VERSION}\n 문의내용:',
+  }),
+);
