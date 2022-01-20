@@ -140,7 +140,7 @@ class RSIWidget extends StatelessWidget {
     var rsi_diff_ratio = rsi_diff / c.tickers_price_list[idx]['ref_rsi'];
 
     return Container(
-      height: 50,
+      height: 60,
       width: double.infinity,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
