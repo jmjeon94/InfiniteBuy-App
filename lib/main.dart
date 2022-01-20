@@ -28,6 +28,12 @@ class MyApp extends StatelessWidget {
     final Controller c = Get.put(Controller());
 
     return GetMaterialApp(
+      builder: (context, child){
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
+          child: child!,
+        );
+      },
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

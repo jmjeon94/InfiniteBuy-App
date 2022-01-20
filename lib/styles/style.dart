@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 
 const mainColor = Colors.deepPurple;
 
-// var bgColor = Color(0xff5756F1); // dark blue
-const fgColor = Color(0xff18171D); // black-grey(toss-background)
-const bgColor = Color(0xff0A090E); // black-grey(toss-foreground)
+const fgColor = Color(0xff18171d); // black-grey(toss-foreground)
+const bgColor = Color(0xff0a090e); // black-grey(toss-background)
 
 const fontColorTitleWhite = Color(0xffFDFDFC);
 const fontColorWhite = Color(0xffE1E1E1);
