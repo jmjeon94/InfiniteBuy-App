@@ -103,176 +103,176 @@ class Controller extends GetxController {
       'name': 'SOXL',
       'ref_rsi': 65,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'BULZ',
       'ref_rsi': 65,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'TQQQ',
       'ref_rsi': 60,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'TECL',
       'ref_rsi': 60,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'WEBL',
       'ref_rsi': 60,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'UPRO',
       'ref_rsi': 55,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'WANT',
       'ref_rsi': 55,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'HIBL',
       'ref_rsi': 55,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'FNGU',
       'ref_rsi': 55,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'TNA',
       'ref_rsi': 50,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'RETL',
       'ref_rsi': 50,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'UDOW',
       'ref_rsi': 50,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'NAIL',
       'ref_rsi': 50,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'LABU',
       'ref_rsi': 45,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'PILL',
       'ref_rsi': 45,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'MIDU',
       'ref_rsi': 45,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'CURE',
       'ref_rsi': 45,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'FAS',
       'ref_rsi': 45,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'TPOR',
       'ref_rsi': 40,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'DRN',
       'ref_rsi': 40,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'DUSL',
       'ref_rsi': 40,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'DFEN',
       'ref_rsi': 40,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'UTSL',
       'ref_rsi': 35,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'BNKU',
       'ref_rsi': 35,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
     {
       'name': 'DPST',
       'ref_rsi': 35,
       'cur_rsi': 0,
-      'close_price': 0,
-      'cur_price': 0
+      'close_price': 0.0,
+      'cur_price': 0.0
     },
   ].obs;
 

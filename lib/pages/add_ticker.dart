@@ -92,7 +92,7 @@ class _AddTickerPageState extends State<AddTickerPage> {
                 double min_invest_balance = 0;
                 for (var t in c.tickers_price_list) {
                   if (t['name'] == ticker_name) {
-                    min_invest_balance = t['close_price'] * 2 * 40;
+                    min_invest_balance = t['close_price'] * 2.0 * 40.0;
                     break;
                   }
                 }
@@ -191,7 +191,7 @@ class _AddTickerPageState extends State<AddTickerPage> {
                         cur_price: c.get_ticker_price(ticker_name),
                         start_date: '$year-$month-$date',
                       );
-                      c.add_ticker_class(ticker: t); // TODO cur_price 수정
+                      c.add_ticker_class(ticker: t);
                     }
                   },
                   child: Text('추가'),
