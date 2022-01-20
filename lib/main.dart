@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
     final Controller c = Get.put(Controller());
 
     return GetMaterialApp(
-      builder: (context, child){
+      builder: (context, child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
           child: child!,
@@ -76,12 +76,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Timer(
       Duration(seconds: 2),
-      () => Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) {
-          return MainPage();
-        }),
-      ),
+      () => Get.off(() => MainPage(),
+          transition: Transition.zoom, duration: Duration(milliseconds: 300)),
     );
   }
 
@@ -89,13 +85,27 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgColor,
-      body: Container(
-        child: Center(
-            child: Text('Infinite Buy',
-                style: TextStyle(
-                    color: mainColor,
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold))),
+      body: Stack(
+        children: [
+          Center(
+              child:
+                  Container(height: 150, child: Image.asset("asset/logo.png"))),
+          SizedBox(
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+
+                Text(
+                  'LetMeBuy',
+                  style: TextStyle(color: fontColorTitleGrey, fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 50,)
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -108,8 +118,43 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
   int _selectedIndex = 0;
+
+
+  // bg->fg 재실행 될때 실행하도록 listener 추가
+  @override
+  void initState(){
+    WidgetsBinding.instance?.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        // 앱 재실행시 http 통신(가격 업데이트, rsi 업데이트)
+        update_cur_rsi();
+        update_close_price();
+        // print("resumed");
+        break;
+      case AppLifecycleState.inactive:
+        // print("inactive");
+        break;
+      case AppLifecycleState.paused:
+        // print("paused");
+        break;
+      case AppLifecycleState.detached:
+        // print("detached");
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,10 +167,25 @@ class _MainPageState extends State<MainPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'LetMeBuy',
-          style: TextStyle(color: fontColorGrey, fontWeight: FontWeight.bold),
+        title:
+
+
+        Row(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(width: 10,),
+            Container(
+              height: 50,
+                child: Image.asset('asset/logo.png',)),
+
+            const Text(
+              'LetMeBuy',
+              style: TextStyle(color: fontColorGrey, fontWeight: FontWeight.bold),
+            ),
+            // SizedBox(width: 50,)
+          ],
         ),
+
 
         backgroundColor: bgColor,
       ),

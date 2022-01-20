@@ -199,11 +199,13 @@ class CustomLineChartState extends State<CustomLineChart> {
   Future<Map> _get_chart_data() async {
     var data = await get_price_history(
         ticker_name: ticker.name, start_date: ticker.start_date);
+    // print(data);
     var _price_data = simulate(
         invest_balance: ticker.invest_balance,
         data: data,
         version: ticker.version,
         debugPrint: false);
+    // print(_price_data);
 
     return convert2spot(_price_data);
   }
@@ -298,15 +300,12 @@ class CustomLineChartState extends State<CustomLineChart> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(
-                                    Icons.local_fire_department,
-                                    color: Colors.red,
-                                  ),
-                                  Text('데이터를 불러오는데 실패 했습니다.'),
-                                  Icon(
-                                    Icons.local_fire_department,
-                                    color: Colors.red,
-                                  ),
+                                  Text('데이터를 불러오는데 실패 했습니다. \u{1F625}',
+                                  style: TextStyle(fontSize: 16),),
+                                  // Icon(
+                                  //   Icons.local_fire_department,
+                                  //   color: Colors.red,
+                                  // ),
                                 ],
                               )));
                     } else if (snapshot.hasData == false) {
