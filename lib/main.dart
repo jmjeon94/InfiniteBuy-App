@@ -117,9 +117,10 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Infinite Buy',
+          'LetMeBuy',
           style: TextStyle(color: fontColorGrey, fontWeight: FontWeight.bold),
         ),
+
         backgroundColor: bgColor,
       ),
       bottomNavigationBar: BottomNavigationBar(
