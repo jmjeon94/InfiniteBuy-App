@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_buy/functions/calculate_n.dart';
@@ -31,8 +32,25 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
 
     banner = BannerAd(
       size: AdSize.banner,
-      adUnitId: Platform.isIOS ? iOSTestId : androidTestId,
-      listener: BannerAdListener(),
+      adUnitId: UNIT_ID[Platform.isIOS ? 'ios' : 'android']!,
+      listener: BannerAdListener(
+        onAdFailedToLoad: (Ad ad, LoadAdError error){
+          // print('failed to load.');
+          // Get.snackbar('광고 불러오기 실패.. $kReleaseMode \u{2728}', '${error}',
+          //     colorText: Colors.white,
+          //     duration: Duration(seconds: 1),
+          //     snackPosition: SnackPosition.BOTTOM);
+        },
+        onAdLoaded: (Ad ad){
+          // print('succeed to load.');
+          // print(kReleaseMode);
+          // // Get.showSnackbar(snackbar)
+          // Get.snackbar('광고 불러오기 완료 \u{2728}', '',
+          //     colorText: Colors.white,
+          //     duration: Duration(seconds: 1),
+          //     snackPosition: SnackPosition.BOTTOM);
+        }
+      ),
       request: AdRequest(),
     )..load();
   }

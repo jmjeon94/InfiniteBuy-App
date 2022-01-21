@@ -67,8 +67,11 @@ class _TickerListState extends State<TickerList> {
                   onReorder: _onReorder,
                   itemCount: c.tickers.length,
                   itemBuilder: (BuildContext context, int idx) {
+                    // key must be unique
+                    String key =
+                        '${c.tickers[idx].name}_${idx}_${c.tickers[idx].invest_balance}_${c.tickers[idx].n}_${c.tickers[idx].avg_price}';
                     return Dismissible(
-                      key: Key('${c.tickers[idx].name}_${idx}'),
+                      key: Key(key),
                       // direction: DismissDirection.endToStart,
 
                       // left to right
