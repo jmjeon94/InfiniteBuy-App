@@ -34,7 +34,6 @@ class _TickerListState extends State<TickerList> {
 
     // sync db indices with ticker's index
     db.sync_db_from_tickers_list();
-
   }
 
   @override
@@ -95,8 +94,7 @@ class _TickerListState extends State<TickerList> {
                       confirmDismiss: (DismissDirection direction) async {
                         if (direction == DismissDirection.startToEnd) {
                           Get.to(() => ModifyTickerPage(),
-                              arguments: idx,
-                              transition: Transition.fade);
+                              arguments: idx, transition: Transition.fade);
                           return false;
                         } else if (direction == DismissDirection.endToStart) {
                           return await showDialog(
@@ -260,6 +258,12 @@ class TickerWidget extends StatelessWidget {
                       decoration: BoxDecoration(
                           // borderRadius: BorderRadius.circular(20),
                           borderRadius: BorderRadius.only(
+                            topLeft: process_ratio.round() > 0
+                                ? Radius.circular(0)
+                                : Radius.circular(20),
+                            bottomLeft: process_ratio.round() > 0
+                                ? Radius.circular(0)
+                                : Radius.circular(20),
                             topRight: Radius.circular(20),
                             bottomRight: Radius.circular(20),
                           ),

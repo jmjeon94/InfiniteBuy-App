@@ -54,8 +54,7 @@ class ProfileInfo extends StatelessWidget {
           Container(
             padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
             child: Text(
-              // c.famousSaying,
-              '사고 팔고 쉬어라. \n 쉬는 것도 투자다.',
+              c.famousSaying,
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 20,
@@ -189,7 +188,7 @@ String? _encodeQueryParameters(Map<String, String> params) {
 
 final Uri _emailLaunchUri = Uri(
   scheme: 'mailto',
-  path: 'jmjeon3155@gmail.com',
+  path: 'app.uoejwj@gmail.com',
   query: _encodeQueryParameters(<String, String>{
     'subject': '[문의] LetMeBuy 어플 문의',
     'body':

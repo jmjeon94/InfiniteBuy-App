@@ -90,7 +90,7 @@ class Ticker {
 
 // Controller Variables
 class Controller extends GetxController {
-  String famousSaying = '';
+  String famousSaying = '사고 팔고 쉬어라.\n쉬는 것도 투자다.';
 
   setFamousSaying(String value) {
     famousSaying = value;
