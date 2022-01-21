@@ -41,7 +41,7 @@ class TickerInfo extends StatelessWidget {
             IconButton(
               color: fontColorGrey,
               onPressed: () {
-                c.remove_ticker_using_ticker_name(data.name);
+                c.remove_ticker(idx);
                 Get.back();
               },
               icon: Icon(Icons.delete_outline_rounded),
@@ -262,7 +262,7 @@ class BuySellInfo extends StatelessWidget {
                   width: 30,
                   child: TextButton(
                       onPressed: () {
-                        c.change_version(ticker: data, version: '1');
+                        c.update_ticker(idx: data.idx, version: '1');
                       },
                       child: Text(
                         'v1',
@@ -276,7 +276,7 @@ class BuySellInfo extends StatelessWidget {
                   width: 40,
                   child: TextButton(
                       onPressed: () {
-                        c.change_version(ticker: data, version: '2.1');
+                        c.update_ticker(idx: data.idx, version: '2.1');
                       },
                       child: Text(
                         'v2.1',

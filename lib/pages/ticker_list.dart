@@ -30,9 +30,11 @@ class _TickerListState extends State<TickerList> {
     c.tickers.insert(newIndex, t);
 
     // sync ticker's indices with list index
-    c.sync_indices();
+    c.sync_tickers_indices();
+
     // sync db indices with ticker's index
-    db.sync_db_from_ticker();
+    db.sync_db_from_tickers_list();
+
   }
 
   @override
@@ -67,7 +69,7 @@ class _TickerListState extends State<TickerList> {
                   itemCount: c.tickers.length,
                   itemBuilder: (BuildContext context, int idx) {
                     return Dismissible(
-                      key: Key(c.tickers[idx].name),
+                      key: Key('${c.tickers[idx].name}_${idx}'),
                       // direction: DismissDirection.endToStart,
 
                       // left to right
@@ -129,8 +131,7 @@ class _TickerListState extends State<TickerList> {
 
                       onDismissed: (direction) {
                         if (direction == DismissDirection.endToStart) {
-                          c.remove_ticker_using_ticker_name(
-                              c.tickers[idx].name);
+                          c.remove_ticker(idx);
 
                           // Get.snackbar('${c.tickers[idx].name} 종목 삭제됨', '',
                           //     colorText: Colors.white,

@@ -32,16 +32,14 @@ class Ticker {
       this.start_date,
       this.version}) {
     buy_balance = n * avg_price;
-    profit_ratio = n > 0
-        ? (cur_price - avg_price) / avg_price * 100
-        : 0;
+    profit_ratio = n > 0 ? (cur_price - avg_price) / avg_price * 100 : 0;
     process_ratio = buy_balance / invest_balance * 100;
 
     // version 미입력시 2.1로 입력
     version = version ?? '2.1';
     // start_data 미입력시 오늘날짜 입력
-    start_date = start_date ??
-        DateFormat('yyyy-M-d').format(DateTime.now()).toString();
+    start_date =
+        start_date ?? DateFormat('yyyy-M-d').format(DateTime.now()).toString();
   }
 
   @override
@@ -94,7 +92,7 @@ class Ticker {
 class Controller extends GetxController {
   String famousSaying = '';
 
-  setFamousSaying(String value){
+  setFamousSaying(String value) {
     famousSaying = value;
   }
 
@@ -276,14 +274,11 @@ class Controller extends GetxController {
     },
   ].obs;
 
-  var tickers = [].obs;
-
-  get_ticker_price(String ticker_name) {
-    // 현재가가 없으면 종가를 가져옴
-    for (Map<String, dynamic> t in tickers_price_list) {
-      if (t['name'] == ticker_name) {
-        num price = t['cur_price'] > 0 ? t['cur_price'] : t['close_price'];
-        return price;
+  update_close_price(String ticker, {required num close_price}) {
+    for (var t in tickers_price_list) {
+      if (t['name'] == ticker) {
+        t['close_price'] = close_price;
+        break;
       }
     }
   }
@@ -306,16 +301,28 @@ class Controller extends GetxController {
     });
   }
 
-  update_close_price(String ticker, {required num close_price}) {
-    for (var t in tickers_price_list) {
-      if (t['name'] == ticker) {
-        t['close_price'] = close_price;
-        break;
+  var tickers = [].obs;
+
+  get_ticker_price(String ticker_name) {
+    // 현재가가 없으면 종가를 가져옴
+    for (Map<String, dynamic> t in tickers_price_list) {
+      if (t['name'] == ticker_name) {
+        num price = t['cur_price'] > 0 ? t['cur_price'] : t['close_price'];
+        return price;
       }
     }
   }
 
-  sync_indices() {
+  add_ticker({required Ticker ticker, bool add_db = true}) {
+    // db
+    if (add_db) {
+      db.insertTicker(ticker);
+    }
+    // ui
+    tickers.add(ticker);
+  }
+
+  sync_tickers_indices() {
     var i = 0;
     tickers.forEach((t) {
       t.idx = i++;
@@ -323,23 +330,32 @@ class Controller extends GetxController {
   }
 
   update_ticker_using_name(String ticker_name,
-      {num? invest_balance, num? cur_price, num? n, num? avg_price}) {
-    for (var t in tickers) {
+      {num? invest_balance,
+      num? cur_price,
+      num? n,
+      num? avg_price,
+      String? start_date,
+      String? version}) {
+    for (int i = 0; i < tickers.length; i++) {
+      var t = tickers[i];
+
       if (t.name == ticker_name) {
         // tickers update
         t = t.update(
             invest_balance: invest_balance,
             cur_price: cur_price,
             n: n,
-            avg_price: avg_price);
+            avg_price: avg_price,
+            start_date: start_date,
+            version: version);
 
         // db update
-        db.updateTicker(t);
+        db.updateTicker(i, t);
       }
     }
   }
 
-  update_ticker_using_idx(
+  update_ticker(
       {required int idx,
       num? invest_balance,
       num? cur_price,
@@ -356,49 +372,22 @@ class Controller extends GetxController {
         version: version);
 
     // db update
-    db.updateTicker(tickers[idx]);
+    db.updateTicker(idx, tickers[idx]);
   }
 
   remove_ticker(int idx) {
-    // TODO db 삭제 추가
-    tickers.removeAt(idx);
-    tickers.refresh();
-  }
-
-  remove_ticker_using_ticker_name(String ticker_name) {
     // db
-    db.deleteTicker(ticker_name);
-    // controllder
-    tickers.removeWhere((item) => item.name == ticker_name);
+    db.deleteTicker(idx);
+    // controller
+    tickers.removeWhere((item) => item.idx == idx);
 
-    // indices 재정렬
-    sync_indices();
+    // tickers indices 재정렬
+    sync_tickers_indices();
+
+    // db indices 재정렬
+    db.sync_db_indices();
 
     // ui 업데이트
-    tickers.refresh();
-  }
-
-  add_ticker_class({required Ticker ticker, bool add_db = true}) {
-    // db
-    if (add_db) {
-      db.insertTicker(ticker);
-    }
-    // ui
-    tickers.add(ticker);
-
-    // indices 재정렬
-    sync_indices();
-  }
-
-  change_version({required Ticker ticker, required String version}) {
-    for (Ticker t in tickers) {
-      if (identical(t, ticker)) {
-        t = t.update(version: version);
-
-        db.updateTicker(t);
-        break;
-      }
-    }
     tickers.refresh();
   }
 }

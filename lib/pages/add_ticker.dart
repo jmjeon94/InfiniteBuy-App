@@ -191,7 +191,7 @@ class _AddTickerPageState extends State<AddTickerPage> {
                         cur_price: c.get_ticker_price(ticker_name),
                         start_date: '$year-$month-$date',
                       );
-                      c.add_ticker_class(ticker: t);
+                      c.add_ticker(ticker: t);
                     }
                   },
                   child: Text('추가'),

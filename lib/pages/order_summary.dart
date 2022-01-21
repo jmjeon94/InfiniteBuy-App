@@ -156,7 +156,7 @@ class _SummaryTileTitle extends StatelessWidget {
               Expanded(
                   child: TextButton(
                       onPressed: () {
-                        c.change_version(ticker: ticker, version: '1');
+                        c.update_ticker(idx: ticker.idx, version: '1');
                       },
                       style: TextButton.styleFrom(padding: EdgeInsets.zero),
                       child: Text(
@@ -170,7 +170,7 @@ class _SummaryTileTitle extends StatelessWidget {
               Expanded(
                   child: TextButton(
                       onPressed: () {
-                        c.change_version(ticker: ticker, version: '2.1');
+                        c.update_ticker(idx: ticker.idx, version: '2.1');
                       },
                       style: TextButton.styleFrom(padding: EdgeInsets.zero),
                       child: Text(

@@ -1,4 +1,3 @@
-import 'package:infinite_buy/functions/http_api.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/material.dart';
@@ -8,10 +7,10 @@ import 'package:get/get.dart';
 final Controller c = Get.find();
 
 Future<Database> database() async {
-  return openDatabase(p.join(await getDatabasesPath(), 'ticker_test2_db.db'),
+  return openDatabase(p.join(await getDatabasesPath(), 'tickers.db'),
       onCreate: (db, version) {
     return db.execute(
-      "CREATE TABLE tickers(idx INTEGER, name TEXT PRIMARY KEY, invest_balance REAL, n INTEGER, avg_price REAL, cur_price REAL, start_date TEXT, version TEXT)",
+      "CREATE TABLE tickers(idx INTEGER, name TEXT, invest_balance REAL, n INTEGER, avg_price REAL, cur_price REAL, start_date TEXT, version TEXT)",
     );
   }, version: 1);
 }
@@ -26,24 +25,24 @@ Future<void> insertTicker(Ticker ticker) async {
   );
 }
 
-Future<void> updateTicker(Ticker ticker) async {
+Future<void> updateTicker(int idx, Ticker ticker) async {
   final Database db = await database();
 
   await db.update(
     'tickers',
     ticker.toMap(),
-    where: "name = ?",
-    whereArgs: [ticker.name],
+    where: "idx = ?",
+    whereArgs: [idx],
   );
 }
 
-Future<void> deleteTicker(String ticker_name) async {
+Future<void> deleteTicker(int idx) async {
   final Database db = await database();
 
   await db.delete(
     'tickers',
-    where: "name = ?",
-    whereArgs: [ticker_name],
+    where: "idx = ?",
+    whereArgs: [idx],
   );
 }
 
@@ -71,17 +70,52 @@ Future<List<Ticker>> get_tickers_from_db() async {
 Future<void> init_ticker_from_db() async {
   var tickers = await get_tickers_from_db();
   tickers.forEach((ticker) {
-    c.add_ticker_class(ticker: ticker, add_db: false);
+    c.add_ticker(ticker: ticker, add_db: false);
   });
 }
 
-Future<void> sync_db_from_ticker() async {
+Future<void> sync_db_indices() async {
+  // idx 순서에 따라 0번부터 정렬해서 재입력
+  final Database db = await database();
+
+  final List<Map<String, dynamic>> maps =
+      await db.query('tickers', orderBy: 'idx ASC');
+
+  for (int i = 0; i < maps.length; i++) {
+    updateTicker(
+        maps[i]['idx'], // 수정할 db의 idx
+        Ticker(
+          idx: i,
+          // 업데이트할 새로운 idx
+          name: maps[i]['name'],
+          invest_balance: maps[i]['invest_balance'],
+          n: maps[i]['n'],
+          avg_price: maps[i]['avg_price'],
+          cur_price: maps[i]['cur_price'],
+          start_date: maps[i]['start_date'],
+          version: maps[i]['version'],
+        ));
+  }
+}
+
+Future<void> sync_db_from_tickers_list() async {
+  // db 전체 삭제 후, tickers에 따라 재생성
+  final Database db = await database();
   var tickers = c.tickers;
-  tickers.forEach((ticker) {
-    updateTicker(ticker);
+
+  // db 가져오기
+  List db_tickers = await db.query('tickers', orderBy: 'idx ASC');
+  // db의 모든 ticker 삭제하기
+  db_tickers.forEach((t) {
+    deleteTicker(t['idx']);
+  });
+  // tickers의 ticker들을 db에 새로 업데이트 하기
+  tickers.forEach((t) {
+    insertTicker(t);
   });
 }
 
+// Deprecated
 class DBTestPage extends StatelessWidget {
   const DBTestPage({Key? key}) : super(key: key);
 
@@ -96,16 +130,16 @@ class DBTestPage extends StatelessWidget {
           onPressed: () async {
             print('add');
 
-            final Ticker t = Ticker(
-                name: 'SOXL',
-                invest_balance: 20000,
-                n: 20,
-                avg_price: 10.3,
-                cur_price: 11.0,
-                version: '2.1');
+            // final Ticker t = Ticker(
+            //     name: 'SOXL',
+            //     invest_balance: 20000,
+            //     n: 20,
+            //     avg_price: 10.3,
+            //     cur_price: 11.0,
+            //     version: '2.1');
             // await insertTicker(t);
 
-            c.add_ticker_class(ticker: t);
+            // c.add_ticker_class(ticker: t);
           },
           icon: Icon(Icons.add),
         ),
@@ -113,14 +147,14 @@ class DBTestPage extends StatelessWidget {
           onPressed: () async {
             print('mod');
 
-            final t = Ticker(
-                name: 'TQQQ',
-                invest_balance: 20000,
-                n: 20,
-                avg_price: 40.3,
-                cur_price: 41.0,
-                version: '2.1');
-            await updateTicker(t);
+            // final t = Ticker(
+            //     name: 'TQQQ',
+            //     invest_balance: 20000,
+            //     n: 20,
+            //     avg_price: 40.3,
+            //     cur_price: 41.0,
+            //     version: '2.1');
+            // await updateTicker(t);
           },
           icon: Icon(Icons.pageview),
         ),
@@ -138,7 +172,7 @@ class DBTestPage extends StatelessWidget {
           onPressed: () async {
             print('btn clicked');
 
-            get_famous_saying();
+            // deleteTicker(0);
           },
           icon: Icon(Icons.delete),
         ),

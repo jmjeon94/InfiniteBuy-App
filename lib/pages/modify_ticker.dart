@@ -174,7 +174,7 @@ class _AddTickerPageState extends State<ModifyTickerPage> {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
 
-                    c.update_ticker_using_idx(
+                    c.update_ticker(
                         idx: idx,
                         invest_balance: double.parse(invest_balance),
                         n: int.parse(n),
