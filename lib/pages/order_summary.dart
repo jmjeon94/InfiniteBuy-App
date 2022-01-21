@@ -1,14 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:infinite_buy/functions/calculate_n.dart';
-import 'package:infinite_buy/pages/ticker_info.dart';
-import 'package:infinite_buy/styles/style.dart';
-import 'package:infinite_buy/tickers_controller.dart';
+import 'package:letmebuy/functions/calculate_n.dart';
+import 'package:letmebuy/pages/ticker_info.dart';
+import 'package:letmebuy/styles/style.dart';
+import 'package:letmebuy/tickers_controller.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import 'dart:io';
-import 'package:infinite_buy/functions/admob_ids.dart';
+import 'package:letmebuy/functions/admob_ids.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 const _buyTextStyle = TextStyle(fontSize: 17, color: fontColorGrey);

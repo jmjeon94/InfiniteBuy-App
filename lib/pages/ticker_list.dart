@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:infinite_buy/pages/rsi_list.dart';
-import 'package:infinite_buy/styles/style.dart';
-import 'package:infinite_buy/tickers_controller.dart';
+import 'package:letmebuy/pages/rsi_list.dart';
+import 'package:letmebuy/styles/style.dart';
+import 'package:letmebuy/tickers_controller.dart';
 import 'modify_ticker.dart';
 import 'ticker_info.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../functions/http_api.dart';
 
-import 'package:infinite_buy/functions/database.dart' as db;
+import 'package:letmebuy/functions/database.dart' as db;
 
 class TickerList extends StatefulWidget {
   @override

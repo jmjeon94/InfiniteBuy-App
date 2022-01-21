@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
-import 'package:infinite_buy/tickers_controller.dart';
+import 'package:letmebuy/tickers_controller.dart';
 
 // var api_url = 'http://49.161.76.27:9998';
 // var api_url = 'http://127.0.0.1:9999';

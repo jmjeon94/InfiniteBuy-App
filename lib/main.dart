@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:infinite_buy/functions/database.dart';
-import 'package:infinite_buy/pages/order_summary.dart';
-import 'package:infinite_buy/pages/settings.dart';
+import 'package:letmebuy/functions/database.dart';
+import 'package:letmebuy/pages/order_summary.dart';
+import 'package:letmebuy/pages/settings.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'functions/http_api.dart';

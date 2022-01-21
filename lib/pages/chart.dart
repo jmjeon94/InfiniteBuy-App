@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_buy/functions/simulator.dart';
-import 'package:infinite_buy/styles/style.dart';
+import 'package:letmebuy/functions/simulator.dart';
+import 'package:letmebuy/styles/style.dart';
 import 'dart:math';
 
 import '../tickers_controller.dart';

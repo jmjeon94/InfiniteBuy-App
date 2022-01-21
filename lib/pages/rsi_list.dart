@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_buy/pages/add_ticker.dart';
-import 'package:infinite_buy/styles/style.dart';
+import 'package:letmebuy/pages/add_ticker.dart';
+import 'package:letmebuy/styles/style.dart';
 import 'package:get/get.dart';
-import 'package:infinite_buy/tickers_controller.dart';
+import 'package:letmebuy/tickers_controller.dart';
 
 // RSI List
 class RSIList extends StatefulWidget {

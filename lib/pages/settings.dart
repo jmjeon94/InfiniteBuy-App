@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:infinite_buy/functions/versions.dart';
-import 'package:infinite_buy/styles/style.dart';
+import 'package:letmebuy/functions/versions.dart';
+import 'package:letmebuy/styles/style.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:math' as math;
 

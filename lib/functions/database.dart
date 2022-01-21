@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/material.dart';
-import 'package:infinite_buy/tickers_controller.dart';
+import 'package:letmebuy/tickers_controller.dart';
 import 'package:get/get.dart';
 
 final Controller c = Get.find();

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:infinite_buy/pages/modify_ticker.dart';
-import 'package:infinite_buy/styles/style.dart';
-import 'package:infinite_buy/tickers_controller.dart';
+import 'package:letmebuy/pages/modify_ticker.dart';
+import 'package:letmebuy/styles/style.dart';
+import 'package:letmebuy/tickers_controller.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:infinite_buy/functions/calculate_n.dart';
+import 'package:letmebuy/functions/calculate_n.dart';
 import 'chart.dart';
 
 const TextStyle _titleTextStyle =

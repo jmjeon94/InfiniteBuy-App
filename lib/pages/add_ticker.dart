@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:infinite_buy/styles/style.dart';
-import 'package:infinite_buy/tickers_controller.dart';
+import 'package:letmebuy/styles/style.dart';
+import 'package:letmebuy/tickers_controller.dart';
 
 class AddTickerPage extends StatefulWidget {
   final ticker_name;
