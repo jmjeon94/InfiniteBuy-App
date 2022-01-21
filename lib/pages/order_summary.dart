@@ -33,24 +33,21 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
     banner = BannerAd(
       size: AdSize.banner,
       adUnitId: UNIT_ID[Platform.isIOS ? 'ios' : 'android']!,
-      listener: BannerAdListener(
-        onAdFailedToLoad: (Ad ad, LoadAdError error){
-          // print('failed to load.');
-          // Get.snackbar('광고 불러오기 실패.. $kReleaseMode \u{2728}', '${error}',
-          //     colorText: Colors.white,
-          //     duration: Duration(seconds: 1),
-          //     snackPosition: SnackPosition.BOTTOM);
-        },
-        onAdLoaded: (Ad ad){
-          // print('succeed to load.');
-          // print(kReleaseMode);
-          // // Get.showSnackbar(snackbar)
-          // Get.snackbar('광고 불러오기 완료 \u{2728}', '',
-          //     colorText: Colors.white,
-          //     duration: Duration(seconds: 1),
-          //     snackPosition: SnackPosition.BOTTOM);
-        }
-      ),
+      listener: BannerAdListener(onAdFailedToLoad: (Ad ad, LoadAdError error) {
+        // print('failed to load.');
+        // Get.snackbar('광고 불러오기 실패.. $kReleaseMode \u{2728}', '${error}',
+        //     colorText: Colors.white,
+        //     duration: Duration(seconds: 1),
+        //     snackPosition: SnackPosition.BOTTOM);
+      }, onAdLoaded: (Ad ad) {
+        // print('succeed to load.');
+        // print(kReleaseMode);
+        // // Get.showSnackbar(snackbar)
+        // Get.snackbar('광고 불러오기 완료 \u{2728}', '',
+        //     colorText: Colors.white,
+        //     duration: Duration(seconds: 1),
+        //     snackPosition: SnackPosition.BOTTOM);
+      }),
       request: AdRequest(),
     )..load();
   }
@@ -67,15 +64,17 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
         Expanded(
           child: Obx(() => c.tickers.length == 0
               ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                  '무한매수 페이지에서 종목을 추가해 주세요.',
-                  style: _emptyTextStyle,
-                ),
-                  SizedBox(height: 100,)
-                ],
-              )
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '무한매수 페이지에서 종목을 추가해 주세요.',
+                      style: _emptyTextStyle,
+                    ),
+                    SizedBox(
+                      height: 100,
+                    )
+                  ],
+                )
               : ListView.separated(
                   itemCount: c.tickers.length,
                   itemBuilder: (context, idx) {
