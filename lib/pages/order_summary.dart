@@ -52,7 +52,7 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                  '무한매수 페이지에서 종목을 등록해주세요.',
+                  '무한매수 페이지에서 종목을 추가해 주세요.',
                   style: _emptyTextStyle,
                 ),
                   SizedBox(height: 100,)
