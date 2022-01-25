@@ -6,6 +6,8 @@
 analysis_options.yaml
 android
 ios
+macos
+web
 pubspec.lock
 test
 *.jks
