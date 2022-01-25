@@ -34,7 +34,8 @@ class MyApp extends StatelessWidget {
           child: child!,
         );
       },
-      localizationsDelegates: [
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
