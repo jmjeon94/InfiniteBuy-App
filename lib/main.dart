@@ -34,10 +34,11 @@ class MyApp extends StatelessWidget {
           child: child!,
         );
       },
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: [
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: [
         const Locale('ko', 'KR'),
@@ -97,12 +98,16 @@ class _SplashScreenState extends State<SplashScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-
                 Text(
                   'LetMeBuy',
-                  style: TextStyle(color: fontColorTitleGrey, fontSize: 22, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      color: fontColorTitleGrey,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 50,)
+                SizedBox(
+                  height: 50,
+                )
               ],
             ),
           ),
@@ -119,13 +124,12 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
+class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   int _selectedIndex = 0;
-
 
   // bg->fg 재실행 될때 실행하도록 listener 추가
   @override
-  void initState(){
+  void initState() {
     WidgetsBinding.instance?.addObserver(this);
     super.initState();
   }
@@ -168,26 +172,26 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
 
     return Scaffold(
       appBar: AppBar(
-        title:
-
-
-        Row(
+        title: Row(
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(width: 10,),
+            SizedBox(
+              width: 10,
+            ),
             Container(
-              height: 50,
-                child: Image.asset('asset/logo.png',)),
+                height: 50,
+                child: Image.asset(
+                  'asset/logo.png',
+                )),
 
             const Text(
               'LetMeBuy',
-              style: TextStyle(color: fontColorGrey, fontWeight: FontWeight.bold),
+              style:
+                  TextStyle(color: fontColorGrey, fontWeight: FontWeight.bold),
             ),
             // SizedBox(width: 50,)
           ],
         ),
-
-
         backgroundColor: bgColor,
       ),
       bottomNavigationBar: BottomNavigationBar(
