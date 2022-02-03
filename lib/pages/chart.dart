@@ -363,7 +363,7 @@ class CustomLineChartState extends State<CustomLineChart> {
                 Container(
                   padding: EdgeInsets.fromLTRB(0, 20, 20, 0),
                   child: Container(
-                    width: 80,
+                    width: 86,
                     height: 50,
                     decoration: BoxDecoration(
                       color: btnColorGrey,
@@ -379,9 +379,9 @@ class CustomLineChartState extends State<CustomLineChart> {
                             color: Color(0xffaa4cfc),
                           ),
                           Text(
-                            ' 평단10%',
+                            ' 평단가+10%',
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 10,
                               color: fontColorGrey,
                             ),
                           )
@@ -397,7 +397,7 @@ class CustomLineChartState extends State<CustomLineChart> {
                           Text(
                             ' 종가',
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 10,
                               color: fontColorGrey,
                             ),
                           )

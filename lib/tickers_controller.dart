@@ -22,15 +22,14 @@ class Ticker {
   var buy_balance;
   var process_ratio;
 
-  Ticker(
-      {this.idx,
-      this.name,
-      this.invest_balance,
-      this.n,
-      this.avg_price,
-      this.cur_price,
-      this.start_date,
-      this.version}) {
+  Ticker({this.idx,
+    this.name,
+    this.invest_balance,
+    this.n,
+    this.avg_price,
+    this.cur_price,
+    this.start_date,
+    this.version}) {
     buy_balance = n * avg_price;
     profit_ratio = n > 0 ? (cur_price - avg_price) / avg_price * 100 : 0;
     process_ratio = buy_balance / invest_balance * 100;
@@ -60,14 +59,13 @@ class Ticker {
     };
   }
 
-  update(
-      {num? idx,
-      num? cur_price,
-      num? invest_balance,
-      num? n,
-      num? avg_price,
-      String? start_date,
-      String? version}) {
+  update({num? idx,
+    num? cur_price,
+    num? invest_balance,
+    num? n,
+    num? avg_price,
+    String? start_date,
+    String? version}) {
     // 입력값 업데이트 (입력되지 않으면 기존값 사용)
     this.idx = idx ?? this.idx;
     this.invest_balance = invest_balance ?? this.invest_balance;
@@ -85,6 +83,25 @@ class Ticker {
     this.process_ratio = this.buy_balance / this.invest_balance * 100;
 
     return this;
+  }
+}
+
+class SellInfo {
+  var ticker;
+  var start_date;
+  var end_date;
+  var profit;
+  var process_ratio;
+
+  SellInfo({this.ticker,
+    this.start_date,
+    this.end_date,
+    this.profit,
+    this.process_ratio});
+
+  @override
+  String toString() {
+    return '종목:${ticker}, 시작일:${start_date}, 매도일:${end_date}, 수익금:${profit}, 소진율:${process_ratio}';
   }
 }
 
@@ -331,11 +348,11 @@ class Controller extends GetxController {
 
   update_ticker_using_name(String ticker_name,
       {num? invest_balance,
-      num? cur_price,
-      num? n,
-      num? avg_price,
-      String? start_date,
-      String? version}) {
+        num? cur_price,
+        num? n,
+        num? avg_price,
+        String? start_date,
+        String? version}) {
     for (int i = 0; i < tickers.length; i++) {
       var t = tickers[i];
 
@@ -355,14 +372,13 @@ class Controller extends GetxController {
     }
   }
 
-  update_ticker(
-      {required int idx,
-      num? invest_balance,
-      num? cur_price,
-      num? n,
-      num? avg_price,
-      String? start_date,
-      String? version}) {
+  update_ticker({required int idx,
+    num? invest_balance,
+    num? cur_price,
+    num? n,
+    num? avg_price,
+    String? start_date,
+    String? version}) {
     tickers[idx] = tickers[idx].update(
         invest_balance: invest_balance,
         cur_price: cur_price,
@@ -389,5 +405,81 @@ class Controller extends GetxController {
 
     // ui 업데이트
     tickers.refresh();
+  }
+
+  get_account_info() {
+    // return: 전체금액, 구매금액, 잔여금액
+    double total_balance = 0;
+    double buy_balance = 0;
+    for (var t in tickers) {
+      total_balance += t.invest_balance;
+      buy_balance += t.buy_balance;
+    }
+    return [total_balance, buy_balance, total_balance - buy_balance];
+  }
+
+  // 매도 기록 달
+  List<double> profit_month =
+      [120.0, 100.0, 0.0, 0.0, 0.0, 0.0, 30.0, 0.0, 0.0, 0.0, 0.0, 0.0].obs;
+
+  // 매도 기록 리스트
+  List<SellInfo> sell_info_list = [
+    SellInfo(
+        ticker: 'TQQQ',
+        start_date: '2022-1-31',
+        end_date: '2022-2-3',
+        profit: 100,
+        process_ratio: 79),
+    SellInfo(
+        ticker: 'TNA',
+        start_date: '2022-1-3',
+        end_date: '2022-2-3',
+        profit: 30,
+        process_ratio: 43
+    ),
+    SellInfo(
+        ticker: 'TNA',
+        start_date: '2022-1-3',
+        end_date: '2022-1-27',
+        profit: 80,
+        // process_ratio: 43
+    ),
+    SellInfo(
+        ticker: 'FNGU',
+        start_date: '2022-1-1',
+        end_date: '2022-1-28',
+        profit: 70,
+        process_ratio: 37),
+  ].obs;
+
+  get_profit_all(){
+    return profit_month.reduce((a, b) => a + b);
+  }
+
+  update_profit_month() {
+    profit_month = <double>[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    sell_info_list.forEach((item) {
+      var month = item.end_date.split("-")[1];
+
+      profit_month[int.parse(month)-1] += item.profit;
+    });
+  }
+
+  add_sell_info() {
+    sell_info_list.add(
+      SellInfo(
+          ticker: 'SOXL',
+          start_date: '2022-1-1',
+          end_date: '2022-2-3',
+          profit: 30,
+          process_ratio: 43),
+    );
+
+    update_profit_month();
+  }
+  
+  remove_sell_info(idx){
+    sell_info_list.removeAt(idx);
+    update_profit_month();
   }
 }

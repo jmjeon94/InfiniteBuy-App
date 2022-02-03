@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:letmebuy/functions/database.dart';
 import 'package:letmebuy/pages/order_summary.dart';
+import 'package:letmebuy/pages/portfolio/portfolio.dart';
 import 'package:letmebuy/pages/settings.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -166,7 +167,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     List _widgetOptions = [
       TickerList(),
       OrderSummaryPage(),
-      // DBTestPage(),
+      PortFolioPage(),
       SettingPage()
     ];
 
@@ -212,16 +213,16 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         items: [
           BottomNavigationBarItem(
             label: '무한매수',
-            icon: Icon(Icons.attach_money),
+            icon: Icon(Icons.all_inclusive_outlined),
           ),
           BottomNavigationBarItem(
             label: '주문요약',
-            icon: Icon(Icons.book_rounded),
+            icon: Icon(Icons.auto_stories_outlined),
           ),
-          // BottomNavigationBarItem(
-          //   label: 'VR',
-          //   icon: Icon(Icons.trending_up_outlined),
-          // ),
+          BottomNavigationBarItem(
+            label: '포트폴리오',
+            icon: Icon(Icons.equalizer_outlined),
+          ),
           BottomNavigationBarItem(
             label: '설정',
             icon: Icon(Icons.settings),
