@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:letmebuy/functions/calculate_n.dart';
@@ -62,7 +61,7 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
           child: AdWidget(ad: banner!),
         ),
         Expanded(
-          child: Obx(() => c.tickers.length == 0
+          child: Obx(() => c.tickers.isEmpty
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

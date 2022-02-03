@@ -111,6 +111,9 @@ Widget _MenuFuncTile({required BuildContext context, required String text}) {
     onTap: () => showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
         backgroundColor: btnColorGrey,
         title: const Text('후원하기'),
         content: const Text(

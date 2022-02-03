@@ -12,6 +12,7 @@ const fontColorGrey = Color(0xffC6C6C8);
 const fontColorTitleGrey = Color(0xff62626C);
 const fontColorBlue = Color(0xff5175D7);
 const fontColorWarning = Colors.deepOrangeAccent;
+const fontColorMain = mainColor;
 
 const textStyleWarning = TextStyle(
     fontStyle: FontStyle.italic, color: fontColorWarning, fontSize: 12);
@@ -27,3 +28,5 @@ var boxDecoration =
 
 const iconColorSelected = Color(0xffE1E1E1);
 const iconColorUnSelected = Color(0xff4D4D59);
+
+const List<Color> circularChartColorList = [mainColor, fontColorTitleGrey , fontColorGrey];

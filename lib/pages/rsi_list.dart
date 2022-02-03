@@ -108,12 +108,14 @@ class Header extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: () async {
-                      print('상태 버튼 clicked');
 
                       return await showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                             backgroundColor: btnColorGrey,
                             title: Center(child: Text('상태 설명')),
                             content: Container(
