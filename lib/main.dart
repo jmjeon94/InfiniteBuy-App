@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:letmebuy/functions/database.dart';
+import 'package:letmebuy/functions/db_tickers.dart';
 import 'package:letmebuy/pages/order_summary.dart';
 import 'package:letmebuy/pages/portfolio/portfolio.dart';
 import 'package:letmebuy/pages/settings.dart';

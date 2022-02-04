@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'functions/database.dart' as db;
+import 'functions/db_tickers.dart' as db;
 
 class Ticker {
   // 정렬 idx

@@ -8,7 +8,7 @@ import 'ticker_info.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../functions/http_api.dart';
 
-import 'package:letmebuy/functions/database.dart' as db;
+import 'package:letmebuy/functions/db_tickers.dart' as db;
 
 class TickerList extends StatefulWidget {
   @override
