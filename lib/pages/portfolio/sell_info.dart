@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:letmebuy/functions/db_sellinfo.dart';
+import 'package:letmebuy/pages/portfolio/add_sellinfo.dart';
 import 'package:letmebuy/pages/portfolio/bar_chart.dart';
+import 'package:letmebuy/pages/portfolio/modify_sellinfo.dart';
 import 'package:letmebuy/styles/style.dart';
 import 'package:letmebuy/tickers_controller.dart';
 
-const _ColumnTextStyle = TextStyle(fontWeight: FontWeight.w900, fontSize: 16);
+const _ColumnTextStyle = TextStyle(fontWeight: FontWeight.w800, fontSize: 17);
 
 class SellInfoPage extends StatelessWidget {
   final Controller c = Get.find();
@@ -26,19 +29,34 @@ class SellInfoPage extends StatelessWidget {
                   itemCount: c.sell_info_list.length,
                   itemBuilder: (BuildContext context, int idx) {
                     return Dismissible(
-                      key: Key(c.sell_info_list[idx].toString()),
-                      // right to left
+                      key: Key(c.sell_info_list[idx].idx.toString()),
                       background: Container(
-                        // margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                        padding: EdgeInsets.all(10),
+                        alignment: Alignment.centerLeft,
+                        child: Icon(Icons.mode_edit_outline_outlined),
+                        color: Colors.blue,
+                      ),
+                      secondaryBackground: Container(
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(color: Colors.red),
                         alignment: Alignment.centerRight,
                         child: Icon(Icons.delete_outline_rounded),
                       ),
-                      direction: DismissDirection.endToStart,
-
                       confirmDismiss: (DismissDirection direction) async {
-                        if (direction == DismissDirection.endToStart) {
+                        if (direction == DismissDirection.startToEnd) {
+                          showModalBottomSheet<void>(
+                            isScrollControlled: true,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Padding(
+                                padding: MediaQuery.of(context).viewInsets,
+                                child: ModifySellInfoModal(idx: idx,),
+                              );
+                            },
+                          );
+
+                          return false;
+                        } else if (direction == DismissDirection.endToStart) {
                           return await showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -68,14 +86,13 @@ class SellInfoPage extends StatelessWidget {
                           );
                         }
                       },
-
                       onDismissed: (direction) {
                         if (direction == DismissDirection.endToStart) {
-                          c.remove_sell_info(idx);
+                          c.remove_sell_info(c.sell_info_list[idx].idx);
                         }
                       },
-
                       child: ListTile(
+                        // 역순으로 출력
                         title: SellInfoTile(idx),
                       ),
                     );
@@ -89,28 +106,12 @@ class SellInfoPage extends StatelessWidget {
           child: FloatingActionButton(
             onPressed: () {
               showModalBottomSheet<void>(
+                isScrollControlled: true,
                 context: context,
                 builder: (BuildContext context) {
-                  return Container(
-                    height: 300,
-                    color: Colors.grey,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          const Text('Modal BottomSheet'),
-                          ElevatedButton(
-                            child: const Text('Close BottomSheet'),
-                            onPressed: () {
-                              c.add_sell_info();
-                              c.update_profit_month();
-                              Navigator.pop(context);
-                            },
-                          )
-                        ],
-                      ),
-                    ),
+                  return Padding(
+                    padding: MediaQuery.of(context).viewInsets,
+                    child: AddSellInfoModal(),
                   );
                 },
               );
@@ -138,19 +139,73 @@ class SellInfoTile extends StatelessWidget {
       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(flex: 12, child: Center(child: Text(info.ticker))),
-        Expanded(flex: 12, child: Center(child: Text('\$${info.profit}'))),
-        Expanded(flex: 20, child: Center(child: Text(info.start_date))),
-        Expanded(flex: 20, child: Center(child: Text(info.end_date))),
         Expanded(
-            flex: 10,
-            child: Center(child: Text(info.process_ratio == null ?  '진행중' : '${info.process_ratio}%'))),
+            flex: 20,
+            child: Center(
+                child: Text(info.profit >= 0
+                    ? '\$${info.profit}'
+                    : '-\$${-info.profit}'))),
+        Expanded(
+            flex: 20,
+            child: Center(
+                child: Text(
+              info.start_date,
+              style: TextStyle(fontSize: 14),
+            ))),
+        Expanded(
+            flex: 22,
+            child: Center(
+                child: Text(info.end_date, style: TextStyle(fontSize: 14)))),
+        Expanded(
+            flex: 12,
+            child: Center(
+                child: Text(
+              info.process_ratio == null
+                  ? '부분매도'
+                  : '${(info.process_ratio).toStringAsFixed(0)}%',
+              style: info.process_ratio == null
+                  ? TextStyle(fontSize: 13)
+                  : TextStyle(),
+            ))),
       ],
     );
   }
 }
 
-class SellInfoTableColumn extends StatelessWidget {
+class SellInfoTableColumn extends StatefulWidget {
   const SellInfoTableColumn({Key? key}) : super(key: key);
+
+  @override
+  State<SellInfoTableColumn> createState() => _SellInfoTableColumnState();
+}
+
+class _SellInfoTableColumnState extends State<SellInfoTableColumn> {
+  final Controller c = Get.find();
+
+  bool isDateDESC = true;
+  bool isTickerDESC = true;
+
+  onToggleDateSort() {
+    setState(() {
+      isDateDESC = !isDateDESC;
+      if (isDateDESC) {
+        c.sort_sell_info(method: 'DATE_DESC');
+      } else {
+        c.sort_sell_info(method: 'DATE_ASC');
+      }
+    });
+  }
+
+  onToggleTickerSort() {
+    setState(() {
+      isTickerDESC = !isTickerDESC;
+      if (isTickerDESC) {
+        c.sort_sell_info(method: 'TICKER_DESC');
+      } else {
+        c.sort_sell_info(method: 'TICKER_ASC');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -162,21 +217,41 @@ class SellInfoTableColumn extends StatelessWidget {
         Expanded(
             flex: 12,
             child: Center(
-                child: Text(
-              '종목',
-              style: _ColumnTextStyle,
+                child: GestureDetector(
+              onTap: onToggleTickerSort,
+              child: Text(
+                '종목',
+                style: _ColumnTextStyle,
+              ),
             ))),
         Expanded(
-            flex: 12,
-            child: Center(child: Text('수익금', style: _ColumnTextStyle))),
+            flex: 20,
+            child: Center(child: Text('손익금', style: _ColumnTextStyle))),
         Expanded(
             flex: 20,
             child: Center(child: Text('시작일', style: _ColumnTextStyle))),
         Expanded(
-            flex: 20,
-            child: Center(child: Text('매도일', style: _ColumnTextStyle))),
+            flex: 22,
+            child: Center(
+                child: GestureDetector(
+                    onTap: onToggleDateSort,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text('   매도일', style: _ColumnTextStyle),
+                        isDateDESC
+                            ? Icon(
+                                Icons.arrow_drop_down,
+                                color: fontColorGrey,
+                              )
+                            : Icon(
+                                Icons.arrow_drop_up,
+                                color: fontColorGrey,
+                              )
+                      ],
+                    )))),
         Expanded(
-            flex: 10,
+            flex: 12,
             child: Center(child: Text('소진율', style: _ColumnTextStyle))),
         SizedBox(
           width: 20,

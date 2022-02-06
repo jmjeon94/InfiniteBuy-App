@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:letmebuy/functions/db_sellinfo.dart';
 import 'package:letmebuy/functions/db_tickers.dart';
 import 'package:letmebuy/pages/order_summary.dart';
 import 'package:letmebuy/pages/portfolio/portfolio.dart';
@@ -69,6 +70,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     // db에서 ticker리스트 가져오기
     init_ticker_from_db();
+    init_sellinfos_from_db();
 
     // price, rsi값 api 요청
     update_cur_rsi();

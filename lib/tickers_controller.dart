@@ -1,6 +1,8 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'functions/db_tickers.dart' as db;
+import 'functions/db_sellinfo.dart' as db_sellinfo;
 
 class Ticker {
   // 정렬 idx
@@ -87,13 +89,15 @@ class Ticker {
 }
 
 class SellInfo {
+  var idx;
   var ticker;
   var start_date;
   var end_date;
   var profit;
   var process_ratio;
 
-  SellInfo({this.ticker,
+  SellInfo({this.idx,
+    this.ticker,
     this.start_date,
     this.end_date,
     this.profit,
@@ -101,7 +105,27 @@ class SellInfo {
 
   @override
   String toString() {
-    return '종목:${ticker}, 시작일:${start_date}, 매도일:${end_date}, 수익금:${profit}, 소진율:${process_ratio}';
+    return '[Idx:$idx] 종목:${ticker}, 시작일:${start_date}, 매도일:${end_date}, 수익금:${profit}, 소진율:${process_ratio}';
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      // 'idx': idx, //idx는 auto increment로 추가
+      'ticker': ticker,
+      'start_date': start_date,
+      'end_date': end_date,
+      'profit': profit,
+      'process_ratio': process_ratio,
+    };
+  }
+
+  SellInfo update({required SellInfo new_si}) {
+    ticker = new_si.ticker ?? ticker;
+    start_date = new_si.start_date ?? start_date;
+    end_date = new_si.end_date ?? end_date;
+    process_ratio = new_si.process_ratio ?? process_ratio;
+    profit = new_si.profit ?? profit;
+    return this;
   }
 }
 
@@ -420,39 +444,14 @@ class Controller extends GetxController {
 
   // 매도 기록 달
   List<double> profit_month =
-      [120.0, 100.0, 0.0, 0.0, 0.0, 0.0, 30.0, 0.0, 0.0, 0.0, 0.0, 0.0].obs;
+      [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0].obs;
 
   // 매도 기록 리스트
-  List<SellInfo> sell_info_list = [
-    SellInfo(
-        ticker: 'TQQQ',
-        start_date: '2022-1-31',
-        end_date: '2022-2-3',
-        profit: 100,
-        process_ratio: 79),
-    SellInfo(
-        ticker: 'TNA',
-        start_date: '2022-1-3',
-        end_date: '2022-2-3',
-        profit: 30,
-        process_ratio: 43
-    ),
-    SellInfo(
-        ticker: 'TNA',
-        start_date: '2022-1-3',
-        end_date: '2022-1-27',
-        profit: 80,
-        // process_ratio: 43
-    ),
-    SellInfo(
-        ticker: 'FNGU',
-        start_date: '2022-1-1',
-        end_date: '2022-1-28',
-        profit: 70,
-        process_ratio: 37),
-  ].obs;
+  RxList sell_info_list = [].obs;
 
-  get_profit_all(){
+  String sort_method = 'DATE_DESC';
+
+  get_profit_all() {
     return profit_month.reduce((a, b) => a + b);
   }
 
@@ -461,25 +460,80 @@ class Controller extends GetxController {
     sell_info_list.forEach((item) {
       var month = item.end_date.split("-")[1];
 
-      profit_month[int.parse(month)-1] += item.profit;
+      profit_month[int.parse(month) - 1] += item.profit;
     });
   }
 
-  add_sell_info() {
-    sell_info_list.add(
-      SellInfo(
-          ticker: 'SOXL',
-          start_date: '2022-1-1',
-          end_date: '2022-2-3',
-          profit: 30,
-          process_ratio: 43),
-    );
+  add_sell_info({required SellInfo sellinfo, bool add_db = false}) {
+    // 리스트 추가
+    sell_info_list.add(sellinfo);
+    // db 추가
+    if (add_db) {
+      db_sellinfo.insertSellInfo(sellinfo);
 
+      // 리스트 재정렬
+      sort_sell_info();
+    }
+    // 월별 수익차트 업데이트
     update_profit_month();
   }
-  
-  remove_sell_info(idx){
-    sell_info_list.removeAt(idx);
+
+  remove_sell_info(idx) {
+    //리스트 제거
+    sell_info_list.removeWhere((element) => element.idx == idx);
+    //db 제거
+    db_sellinfo.deleteSellInfo(idx);
+    // 월별 수익차트 업데이트
     update_profit_month();
+    // ui 업데이트
+    sell_info_list.refresh();
+  }
+
+  update_sell_info({required int idx, required SellInfo new_si}) {
+
+    // 기존 sell info 가져오기
+    SellInfo prev_si = sell_info_list[idx];
+
+    // sell info 수정 반영하기
+    new_si = prev_si.update(new_si: new_si);
+
+    // db 업데이트
+    db_sellinfo.updateSellInfo(new_si);
+
+    // 월별 수익차트 업데이트
+    update_profit_month();
+
+    // 리스트 재정렬
+    sort_sell_info();
+
+    // ui 업데이트
+    sell_info_list.refresh();
+  }
+
+  sort_sell_info({String? method}) {
+    String sm = method ?? sort_method;
+    // DATE_ASC, DATE_DESC, TICKER_ASC, TICKER_DESC
+    if (sm == 'DATE_DESC') {
+      sell_info_list.sort((a, b) {
+        var adate = a.end_date.split('-');
+        var bdate = b.end_date.split('-');
+        int cmp = int.parse(bdate[1]).compareTo(int.parse(adate[1]));
+        if (cmp != 0) return cmp;
+        return int.parse(bdate[2]).compareTo(int.parse(adate[2]));
+      });
+    } else if (sm == 'DATE_ASC') {
+      sell_info_list.sort((a, b) {
+        var adate = b.end_date.split('-');
+        var bdate = a.end_date.split('-');
+        int cmp = int.parse(bdate[1]).compareTo(int.parse(adate[1]));
+        if (cmp != 0) return cmp;
+        return int.parse(bdate[2]).compareTo(int.parse(adate[2]));
+      });
+    } else if (sm == 'TICKER_DESC') {
+      sell_info_list.sort((a, b) => b.ticker.compareTo(a.ticker));
+    } else if (sm == 'TICKER_ASC') {
+      sell_info_list.sort((a, b) => a.ticker.compareTo(b.ticker));
+    }
+    sell_info_list.refresh();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:letmebuy/functions/db_sellinfo.dart';
 import 'package:letmebuy/styles/style.dart';
 import 'package:letmebuy/tickers_controller.dart';
 
@@ -18,8 +19,24 @@ class BarChartSample1State extends State<BarChartSample1> {
   int touchedIndex = -1;
   final Controller c = Get.find();
 
+  final _yearList = ['2021', '2022', '2023', '2024', '2025'];
+  var _seletedYear = '2022';
+
+  onChangedYear(value) {
+    setState(() {
+      _seletedYear = value;
+
+      // 매도기록 리스트 ui 변경
+      init_sellinfos_from_db(targetYear: value.toString());
+
+      // 차트 ui 반영
+      c.update_profit_month();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    num profit_all = c.get_profit_all();
     return AspectRatio(
       aspectRatio: 12 / 10,
       child: Card(
@@ -35,8 +52,9 @@ class BarChartSample1State extends State<BarChartSample1> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('올해의 수익: \$${c.get_profit_all().toStringAsFixed(1)}'),
-                      // Text('누적 수익: \$${1000}')
+                      Text(profit_all >= 0
+                          ? '$_seletedYear년의 수익: \$${profit_all.toStringAsFixed(1)}'
+                          : '$_seletedYear년의 수익: -\$${(-profit_all).toStringAsFixed(1)}'),
                     ],
                   )
                 ],
@@ -45,30 +63,48 @@ class BarChartSample1State extends State<BarChartSample1> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.start, //원래 stretch 였음
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   const Text(
-                    '무매 매도 차트',
+                    '무매 수익 차트',
                     style: TextStyle(
                         color: fontColorGrey, //Color(0xff0f4a3c),
                         fontSize: 24,
                         fontWeight: FontWeight.bold),
                   ),
+                  SizedBox(
+                    width: 90,
+                    child: DropdownButton(
+                        underline: Container(),
+                        icon: Icon(
+                          Icons.arrow_drop_down,
+                          color: mainColor,
+                        ),
+                        style: TextStyle(
+                            color: fontColorMain, //Color(0xff379982),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                        value: _seletedYear,
+                        dropdownColor: fgColor,
+                        items: _yearList.map((value) {
+                          return DropdownMenuItem(
+                              value: value,
+                              child: Container(child: Text('$value년')));
+                        }).toList(),
+                        onChanged: onChangedYear),
+                  ),
                   const SizedBox(
                     height: 4,
                   ),
-                  const Text(
-                    '2022년',
-                    style: TextStyle(
-                        color: fontColorMain, //Color(0xff379982),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 38,
-                  ),
+                  // const Text(
+                  //   '2022년',
+                  //   style: TextStyle(
+                  //       color: fontColorMain, //Color(0xff379982),
+                  //       fontSize: 18,
+                  //       fontWeight: FontWeight.bold),
+                  // ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -215,7 +251,7 @@ class BarChartSample1State extends State<BarChartSample1> {
                 ),
                 children: <TextSpan>[
                   TextSpan(
-                    text: rod.y - 1 > 0
+                    text: rod.y - 1 >= 0
                         ? '\$${(rod.y - 1).toString()}'
                         : '-\$${(-rod.y + 1).toString()}',
                     style: const TextStyle(
