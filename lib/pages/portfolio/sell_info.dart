@@ -227,7 +227,7 @@ class _SellInfoTableColumnState extends State<SellInfoTableColumn> {
     return Row(
       children: [
         SizedBox(
-          width: 20,
+          width: 10,
         ),
         Expanded(
             flex: 12,
@@ -269,7 +269,7 @@ class _SellInfoTableColumnState extends State<SellInfoTableColumn> {
             flex: 12,
             child: Center(child: Text('소진율', style: _ColumnTextStyle))),
         SizedBox(
-          width: 20,
+          width: 10,
         ),
       ],
     );

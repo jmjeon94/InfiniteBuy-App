@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 const mainColor = Colors.deepPurple;
@@ -14,8 +16,10 @@ const fontColorBlue = Color(0xff5175D7);
 const fontColorWarning = Colors.deepOrangeAccent;
 const fontColorMain = mainColor;
 
-const textStyleWarning = TextStyle(
-    fontStyle: FontStyle.italic, color: fontColorWarning, fontSize: 12);
+var textStyleWarning = TextStyle(
+    fontStyle: FontStyle.italic,
+    color: fontColorWarning,
+    fontSize: Platform.isIOS ? 12 : 11);
 
 const btnColorPurple = mainColor;
 const btnColorGrey = Color(0xff2C2C34);
@@ -29,4 +33,8 @@ var boxDecoration =
 const iconColorSelected = Color(0xffE1E1E1);
 const iconColorUnSelected = Color(0xff4D4D59);
 
-const List<Color> circularChartColorList = [mainColor, fontColorTitleGrey , fontColorGrey];
+const List<Color> circularChartColorList = [
+  mainColor,
+  fontColorTitleGrey,
+  fontColorGrey
+];

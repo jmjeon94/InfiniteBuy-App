@@ -100,6 +100,7 @@ class TickerInfo extends StatelessWidget {
                 child: Text(
               '위 그래프는 시작 날짜에 따른 시뮬레이션 결과로 실제와 다를 수 있습니다.',
               style: textStyleWarning,
+
             ))
           ],
         ));

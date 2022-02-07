@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -118,7 +120,7 @@ class _AddSellInfoFromTickerModalState
               child: Center(
                 child: Text(
                   '아래에서 해당되는 매도 방법들을 체크해주세요.',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: Platform.isIOS ? 18 : 17),
                 ),
               ),
             ),
@@ -129,7 +131,7 @@ class _AddSellInfoFromTickerModalState
               child: Center(
                 child: Text(
                   '(매도 수량과 체결가는 종가와 평단가에 의해 자동으로 계산됩니다.)',
-                  style: TextStyle(fontSize: 13),
+                  style: TextStyle(fontSize: 12),
                 ),
               ),
             ),
