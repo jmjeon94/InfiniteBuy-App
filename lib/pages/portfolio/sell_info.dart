@@ -156,7 +156,7 @@ class SellInfoTile extends StatelessWidget {
             child: Center(
                 child: Text(info.profit >= 0
                     ? '\$${info.profit.toStringAsFixed(1)}'
-                    : '-\$${-info.profit.toStringAsFixed(1)}'))),
+                    : '-\$${(-info.profit).toStringAsFixed(1)}'))),
         // 시작일
         Expanded(
             flex: 20,

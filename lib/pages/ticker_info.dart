@@ -40,9 +40,38 @@ class TickerInfo extends StatelessWidget {
             ),
             IconButton(
               color: fontColorGrey,
-              onPressed: () {
-                c.remove_ticker(idx);
-                Get.back();
+              onPressed: () async{
+                await showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      backgroundColor: btnColorGrey,
+                      title: Text(
+                        '확인',
+                      ),
+                      content: const Text(
+                        '해당 종목을 삭제 하시겠습니까?',
+                        textAlign: TextAlign.center,
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () => Navigator.pop(
+                              context, false),
+                          child: const Text('취소'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            c.remove_ticker(idx);
+                            Navigator.pop(context, true);
+                            Get.back();
+                          },
+                          child: const Text('삭제'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+
               },
               icon: Icon(Icons.delete_outline_rounded),
             ),

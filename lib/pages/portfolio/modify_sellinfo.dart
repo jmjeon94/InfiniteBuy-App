@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:letmebuy/functions/db_sellinfo.dart';
 import 'package:letmebuy/styles/style.dart';
 import 'package:letmebuy/tickers_controller.dart';
 
@@ -120,7 +119,7 @@ class _ModifySellInfoModalState extends State<ModifySellInfoModal> {
                 Flexible(
                   child: TextForm(
                     '손익금(\$)',
-                    initialValue: c.sell_info_list[idx].profit.toString(),
+                    initialValue: c.sell_info_list[idx].profit.toStringAsFixed(2),
                     keyboardType: TextInputType.numberWithOptions(
                         decimal: true, signed: true),
                     onSaved: (value) {

@@ -139,7 +139,7 @@ class _AddSellInfoFromTickerModalState
             Row(
               children: [
                 Visibility(
-                  visible: !_isBeforeHalf,
+                  visible: !_isBeforeHalf && _version=='2.1',
                   child: Flexible(
                       flex: 1,
                       child: InkWell(
