@@ -76,9 +76,9 @@ class _AddSellInfoFromTickerModalState
     date_end = today.day;
 
     Ticker t = c.tickers[idx];
-    _isZeroChecked = t.avg_price < t.cur_price;
-    _isFiveChecked = t.avg_price * 1.05 < t.cur_price;
-    _isTenChecked = t.avg_price * 1.1 < t.cur_price;
+    _isZeroChecked = t.avg_price > 0 ? t.avg_price < t.cur_price : false;
+    _isFiveChecked = t.avg_price > 0 ? t.avg_price * 1.05 < t.cur_price : false;
+    _isTenChecked = t.avg_price > 0 ? t.avg_price * 1.1 < t.cur_price : false;
     super.initState();
   }
 
@@ -139,7 +139,7 @@ class _AddSellInfoFromTickerModalState
             Row(
               children: [
                 Visibility(
-                  visible: !_isBeforeHalf && _version=='2.1',
+                  visible: !_isBeforeHalf && _version == '2.1',
                   child: Flexible(
                       flex: 1,
                       child: InkWell(
@@ -310,11 +310,6 @@ class _AddSellInfoFromTickerModalState
                                   '포트폴리오-매도기록에서 확인 가능합니다.',
                                   colorText: Colors.white,
                                   duration: Duration(milliseconds: 1500),
-                                  snackPosition: SnackPosition.BOTTOM);
-                            } else {
-                              Get.snackbar('매도할 방법을 체크해주세요.', '',
-                                  colorText: Colors.white,
-                                  duration: Duration(seconds: 1),
                                   snackPosition: SnackPosition.BOTTOM);
                             }
                           }
