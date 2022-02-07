@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:letmebuy/functions/db_sellinfo.dart';
 import 'package:letmebuy/pages/portfolio/add_sellinfo.dart';
 import 'package:letmebuy/pages/portfolio/bar_chart.dart';
 import 'package:letmebuy/pages/portfolio/modify_sellinfo.dart';
@@ -50,7 +49,9 @@ class SellInfoPage extends StatelessWidget {
                             builder: (BuildContext context) {
                               return Padding(
                                 padding: MediaQuery.of(context).viewInsets,
-                                child: ModifySellInfoModal(idx: idx,),
+                                child: ModifySellInfoModal(
+                                  idx: idx,
+                                ),
                               );
                             },
                           );
@@ -97,6 +98,15 @@ class SellInfoPage extends StatelessWidget {
                       ),
                     );
                   }),
+              SizedBox(height: 10,),
+
+              Center(
+                child: Text('모든 손익금은 수수료, 세금 등을 고려하지 않았으므로 참고 바랍니다.',
+                  style: TextStyle(
+                      fontSize: 12,
+                      color: fontColorWarning
+                  ),),
+              )
             ],
           )),
       Align(
@@ -138,13 +148,16 @@ class SellInfoTile extends StatelessWidget {
     return Row(
       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        // 종목
         Expanded(flex: 12, child: Center(child: Text(info.ticker))),
+        // 손익금
         Expanded(
             flex: 20,
             child: Center(
                 child: Text(info.profit >= 0
-                    ? '\$${info.profit}'
-                    : '-\$${-info.profit}'))),
+                    ? '\$${info.profit.toStringAsFixed(1)}'
+                    : '-\$${-info.profit.toStringAsFixed(1)}'))),
+        // 시작일
         Expanded(
             flex: 20,
             child: Center(
@@ -152,10 +165,12 @@ class SellInfoTile extends StatelessWidget {
               info.start_date,
               style: TextStyle(fontSize: 14),
             ))),
+        //매도일
         Expanded(
             flex: 22,
             child: Center(
                 child: Text(info.end_date, style: TextStyle(fontSize: 14)))),
+        //소진율
         Expanded(
             flex: 12,
             child: Center(

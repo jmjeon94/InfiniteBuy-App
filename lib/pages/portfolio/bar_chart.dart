@@ -19,7 +19,7 @@ class BarChartSample1State extends State<BarChartSample1> {
   int touchedIndex = -1;
   final Controller c = Get.find();
 
-  final _yearList = ['2021', '2022', '2023', '2024', '2025'];
+  final _yearList = ['2020', '2021', '2022', '2023', '2024'];
   var _seletedYear = '2022';
 
   onChangedYear(value) {
@@ -252,8 +252,8 @@ class BarChartSample1State extends State<BarChartSample1> {
                 children: <TextSpan>[
                   TextSpan(
                     text: rod.y - 1 >= 0
-                        ? '\$${(rod.y - 1).toString()}'
-                        : '-\$${(-rod.y + 1).toString()}',
+                        ? '\$${(rod.y - 1).toStringAsFixed(2)}'
+                        : '-\$${(-rod.y + 1).toStringAsFixed(2)}',
                     style: const TextStyle(
                       color: fontColorWhite, // Colors.yellow,
                       fontSize: 16,

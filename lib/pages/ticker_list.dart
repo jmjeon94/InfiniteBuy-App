@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:letmebuy/pages/portfolio/add_sellinfo_from_tickers.dart';
 import 'package:letmebuy/pages/rsi_list.dart';
 import 'package:letmebuy/styles/style.dart';
 import 'package:letmebuy/tickers_controller.dart';
@@ -7,6 +8,7 @@ import 'modify_ticker.dart';
 import 'ticker_info.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../functions/http_api.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:letmebuy/functions/db_tickers.dart' as db;
 
@@ -21,6 +23,8 @@ class _TickerListState extends State<TickerList> {
   _onPressed() {
     Get.to(() => RSIList());
   }
+
+  doNothing() {}
 
   void _onReorder(int oldIndex, int newIndex) {
     if (oldIndex < newIndex) {
@@ -63,92 +67,296 @@ class _TickerListState extends State<TickerList> {
                     ],
                   ),
                 )
-              : ReorderableListView.builder(
-                  onReorder: _onReorder,
-                  itemCount: c.tickers.length,
-                  itemBuilder: (BuildContext context, int idx) {
-                    // key must be unique
-                    String key =
-                        '${c.tickers[idx].name}_${idx}_${c.tickers[idx].invest_balance}_${c.tickers[idx].n}_${c.tickers[idx].avg_price}';
-                    return Dismissible(
-                      key: Key(key),
-                      // direction: DismissDirection.endToStart,
+              : SlidableAutoCloseBehavior(
+                  child: ReorderableListView.builder(
+                    onReorder: _onReorder,
+                    itemCount: c.tickers.length,
+                    itemBuilder: (BuildContext context, int idx) {
+                      // key must be unique
+                      String key =
+                          '${c.tickers[idx].name}_${idx}_${c.tickers[idx].invest_balance}_${c.tickers[idx].n}_${c.tickers[idx].avg_price}';
+                      return Slidable(
+                        // Specify a key if the Slidable is dismissible.
+                        key: Key(key),
 
-                      // left to right
-                      background: Container(
-                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                        padding: EdgeInsets.all(20),
-                        alignment: Alignment.centerLeft,
-                        child: Icon(Icons.mode_edit_outline_outlined),
-                        color: Colors.blue,
-                      ),
-                      // right to left
-                      secondaryBackground: Container(
-                        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                        padding: EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.red),
-                        alignment: Alignment.centerRight,
-                        child: Icon(Icons.delete_outline_rounded),
-                        // color: Colors.red,
-                      ),
+                        startActionPane: ActionPane(
+                          extentRatio: 0.3,
+                          // A motion is a widget used to control how the pane animates.
+                          motion: const ScrollMotion(),
 
-                      confirmDismiss: (DismissDirection direction) async {
-                        if (direction == DismissDirection.startToEnd) {
-                          Get.to(() => ModifyTickerPage(),
-                              arguments: idx, transition: Transition.fade);
-                          return false;
-                        } else if (direction == DismissDirection.endToStart) {
-                          return await showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                backgroundColor: btnColorGrey,
-                                title: Text(
-                                  '확인',
-                                ),
-                                content: const Text(
-                                  '삭제 하시겠습니까?',
-                                  textAlign: TextAlign.center,
-                                ),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(context, false),
-                                    child: const Text('취소'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(context, true),
-                                    child: const Text('삭제'),
-                                  ),
-                                ],
+                          // A pane can dismiss the Slidable.
+                          dismissible: DismissiblePane(
+                            closeOnCancel: true,
+                            onDismissed: () {},
+                            confirmDismiss: () async {
+                              Get.to(
+                                () => ModifyTickerPage(),
+                                arguments: idx,
+                                // transition: Transition.downToUp
                               );
+                              return false;
                             },
-                          );
-                        }
-                      },
+                          ),
 
-                      onDismissed: (direction) {
-                        if (direction == DismissDirection.endToStart) {
-                          c.remove_ticker(idx);
+                          children: [
+                            // SlidableAction(
+                            //   autoClose: true,
+                            //   onPressed: (context) {},
+                            //   backgroundColor: Color(0xFF21B7CA),
+                            //   foregroundColor: Colors.white,
+                            //   icon: Icons.mode_edit_outline_outlined,
+                            //   label: '수정',
+                            // ),
+                            Builder(
+                              builder: (context) => Expanded(
+                                  flex: 1,
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      Get.to(
+                                        () => ModifyTickerPage(),
+                                        arguments: idx,
+                                        // transition: Transition.downToUp
+                                      );
 
-                          // Get.snackbar('${c.tickers[idx].name} 종목 삭제됨', '',
-                          //     colorText: Colors.white,
-                          //     duration: Duration(seconds: 1),
-                          //     snackPosition: SnackPosition.BOTTOM);
-                        }
-                      },
-                      child: ListTile(
-                        title: TickerWidget(idx),
-                        tileColor: Colors.transparent,
-                        onTap: () {
-                          Get.to(() => TickerInfo(idx));
-                        },
-                      ),
-                    );
-                  },
+                                      // slidable 닫기
+                                      Slidable.of(context)?.close();
+                                    },
+                                    child: Container(
+                                        margin: EdgeInsets.only(
+                                            left: 20, top: 10, bottom: 10),
+                                        height: 120,
+                                        // width: 50,
+                                        decoration: BoxDecoration(
+                                            color: Color(0xFF0392CF),
+                                            //Color(0xFF21B7CA),
+
+                                            borderRadius:
+                                                BorderRadius.circular(18)),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.mode_edit_outline_outlined,
+                                              color: Colors.white,
+                                            ),
+                                            SizedBox(height: 10),
+                                            Text(
+                                              '수정',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w500),
+                                            )
+                                          ],
+                                        )),
+                                  )),
+                            )
+                          ],
+                        ),
+
+                        endActionPane: ActionPane(
+                          extentRatio: 0.6,
+                          motion: DrawerMotion(),
+                          children: [
+                            Builder(builder: (context) {
+                              return Expanded(
+                                  flex: 1,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      // slidable 닫기
+                                      Slidable.of(context)?.close();
+
+                                      showModalBottomSheet<void>(
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Padding(
+                                            padding: MediaQuery.of(context)
+                                                .viewInsets,
+                                            child:
+                                                AddSellInfoFromTickerModal(idx),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Container(
+                                        margin: EdgeInsets.only(
+                                            left: 2,
+                                            top: 10,
+                                            bottom: 10,
+                                            right: 18),
+                                        height: 120,
+                                        decoration: BoxDecoration(
+                                            color:
+                                                mainColor, //Color(0xFF21B7CA),
+
+                                            borderRadius:
+                                                BorderRadius.circular(18)),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.attach_money,
+                                              color: Colors.white,
+                                            ),
+                                            SizedBox(height: 10),
+                                            Text(
+                                              '매도',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w500),
+                                            )
+                                          ],
+                                        )),
+                                  ));
+                            }),
+
+                            Builder(builder: (context) {
+                              return Expanded(
+                                  flex: 1,
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      // slidable 닫기
+                                      Slidable.of(context)?.close();
+
+                                      return await showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            backgroundColor: btnColorGrey,
+                                            title: Text(
+                                              '확인',
+                                            ),
+                                            content: const Text(
+                                              '해당 종목을 삭제 하시겠습니까?',
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    context, false),
+                                                child: const Text('취소'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  c.remove_ticker(idx);
+                                                  Navigator.pop(context, true);
+                                                },
+                                                child: const Text('삭제'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Container(
+                                        margin: EdgeInsets.only(
+                                            left: 0,
+                                            top: 10,
+                                            bottom: 10,
+                                            right: 20),
+                                        height: 120,
+                                        decoration: BoxDecoration(
+                                            color: Color(0xFFFE4A49),
+                                            //Color(0xFF21B7CA),
+
+                                            borderRadius:
+                                                BorderRadius.circular(18)),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.delete,
+                                              color: Colors.white,
+                                            ),
+                                            SizedBox(height: 10),
+                                            Text(
+                                              '삭제',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w500),
+                                            )
+                                          ],
+                                        )),
+                                  ));
+                            }),
+
+                            // SlidableAction(
+                            //   onPressed: (context) {
+                            //     showModalBottomSheet<void>(
+                            //       isScrollControlled: true,
+                            //       context: context,
+                            //       builder: (BuildContext context) {
+                            //         return Padding(
+                            //           padding:
+                            //               MediaQuery.of(context).viewInsets,
+                            //           child: AddSellInfoFromTickerModal(idx),
+                            //         );
+                            //       },
+                            //     );
+                            //   },
+                            //   backgroundColor: mainColor, //Color(0xFF0392CF),
+                            //   foregroundColor: Colors.white,
+                            //   icon: Icons.attach_money,
+                            //   label: '매도',
+                            // ),
+                            // SlidableAction(
+                            //   onPressed: (context) async {
+                            //     return await showDialog(
+                            //       context: context,
+                            //       builder: (BuildContext context) {
+                            //         return AlertDialog(
+                            //           backgroundColor: btnColorGrey,
+                            //           title: Text(
+                            //             '확인',
+                            //           ),
+                            //           content: const Text(
+                            //             '해당 종목을 삭제 하시겠습니까?',
+                            //             textAlign: TextAlign.center,
+                            //           ),
+                            //           actions: <Widget>[
+                            //             TextButton(
+                            //               onPressed: () =>
+                            //                   Navigator.pop(context, false),
+                            //               child: const Text('취소'),
+                            //             ),
+                            //             TextButton(
+                            //               onPressed: () {
+                            //                 c.remove_ticker(idx);
+                            //                 Navigator.pop(context, true);
+                            //               },
+                            //               child: const Text('삭제'),
+                            //             ),
+                            //           ],
+                            //         );
+                            //       },
+                            //     );
+                            //   },
+                            //   backgroundColor: Color(0xFFFE4A49),
+                            //   foregroundColor: Colors.white,
+                            //   icon: Icons.delete,
+                            //   label: '삭제',
+                            // ),
+                          ],
+                        ),
+
+                        // The child of the Slidable is what the user sees when the
+                        // component is not dragged.
+                        child: ListTile(
+                          title: TickerWidget(idx),
+                          tileColor: Colors.transparent,
+                          onTap: () {
+                            Get.to(() => TickerInfo(idx));
+                          },
+                        ),
+                      );
+                    },
+                  ),
                 ),
         ));
   }
