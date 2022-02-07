@@ -280,8 +280,16 @@ class _AddSellInfoFromTickerModalState
                                   : 0);
                             }
 
+                            print(nTotalSell);
                             // 전체 매도 시
-                            if (t.n == nTotalSell) {
+                            if (nTotalSell == 0) {
+                              // 매도 할 게 없는 경우 수정, 삭제하지 않고 스낵바 알림
+                              Get.snackbar(
+                                  '$ticker_name 매도기록 실패', '매도 가능한 수량이 없습니다.',
+                                  colorText: Colors.white,
+                                  duration: Duration(milliseconds: 2000),
+                                  snackPosition: SnackPosition.BOTTOM);
+                            } else if (nTotalSell == t.n) {
                               // 해당 종목 삭제
                               c.remove_ticker(idx);
                               process_ratio = t.process_ratio;
