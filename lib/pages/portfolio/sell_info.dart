@@ -99,14 +99,18 @@ class SellInfoPage extends StatelessWidget {
                       ),
                     );
                   }),
-              SizedBox(height: 10,),
-
+              SizedBox(
+                height: 10,
+              ),
               Center(
-                child: Text('모든 손익금은 수수료, 세금 등을 고려하지 않았으므로 참고 바랍니다.',
+                child: Text(
+                  '모든 손익금은 수수료, 세금 등을 고려하지 않았으므로 참고 바랍니다.',
                   style: TextStyle(
-                      fontSize: 12,
-                      color: fontColorWarning
-                  ),),
+                    fontSize: 12,
+                    color: fontColorWarning,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
               )
             ],
           )),
