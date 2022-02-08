@@ -7,6 +7,7 @@ import 'package:letmebuy/styles/style.dart';
 import 'package:letmebuy/tickers_controller.dart';
 
 const _ColumnTextStyle = TextStyle(fontWeight: FontWeight.w800, fontSize: 17);
+const _flexList = [12, 20, 20, 22, 15];
 
 class SellInfoPage extends StatelessWidget {
   final Controller c = Get.find();
@@ -149,17 +150,17 @@ class SellInfoTile extends StatelessWidget {
       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         // 종목
-        Expanded(flex: 12, child: Center(child: Text(info.ticker))),
+        Expanded(flex: _flexList[0], child: Center(child: Text(info.ticker))),
         // 손익금
         Expanded(
-            flex: 20,
+            flex: _flexList[1],
             child: Center(
                 child: Text(info.profit >= 0
                     ? '\$${info.profit.toStringAsFixed(1)}'
                     : '-\$${(-info.profit).toStringAsFixed(1)}'))),
         // 시작일
         Expanded(
-            flex: 20,
+            flex: _flexList[2],
             child: Center(
                 child: Text(
               info.start_date,
@@ -167,12 +168,12 @@ class SellInfoTile extends StatelessWidget {
             ))),
         //매도일
         Expanded(
-            flex: 22,
+            flex: _flexList[3],
             child: Center(
                 child: Text(info.end_date, style: TextStyle(fontSize: 14)))),
         //소진율
         Expanded(
-            flex: 12,
+            flex: _flexList[4],
             child: Center(
                 child: Text(
               info.process_ratio == null
@@ -230,7 +231,7 @@ class _SellInfoTableColumnState extends State<SellInfoTableColumn> {
           width: 10,
         ),
         Expanded(
-            flex: 12,
+            flex: _flexList[0],
             child: Center(
                 child: GestureDetector(
               onTap: onToggleTickerSort,
@@ -240,13 +241,13 @@ class _SellInfoTableColumnState extends State<SellInfoTableColumn> {
               ),
             ))),
         Expanded(
-            flex: 20,
+            flex: _flexList[1],
             child: Center(child: Text('손익금', style: _ColumnTextStyle))),
         Expanded(
-            flex: 20,
+            flex: _flexList[2],
             child: Center(child: Text('시작일', style: _ColumnTextStyle))),
         Expanded(
-            flex: 22,
+            flex: _flexList[3],
             child: Center(
                 child: GestureDetector(
                     onTap: onToggleDateSort,
@@ -266,7 +267,7 @@ class _SellInfoTableColumnState extends State<SellInfoTableColumn> {
                       ],
                     )))),
         Expanded(
-            flex: 12,
+            flex: _flexList[4],
             child: Center(child: Text('소진율', style: _ColumnTextStyle))),
         SizedBox(
           width: 10,
