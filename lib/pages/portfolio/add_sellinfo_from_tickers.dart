@@ -232,7 +232,7 @@ class _AddSellInfoFromTickerModalState
               width: double.infinity,
               padding: EdgeInsets.all(10),
               child: ElevatedButton(
-                  onPressed: _isFiveChecked | _isFiveChecked | _isTenChecked
+                  onPressed: _isZeroChecked | _isFiveChecked | _isTenChecked
                       ? () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
