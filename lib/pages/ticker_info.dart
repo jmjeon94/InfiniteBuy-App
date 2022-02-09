@@ -189,80 +189,177 @@ class DefaultInfo extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  children: [
-                    Text(
-                      '투자금',
-                      style: _bodyDefaultInfoTextStyle,
-                    ),
-                    Text(
-                      '평단가',
-                      style: _bodyDefaultInfoTextStyle,
-                    ),
-                    Text(
-                      '현재가',
-                      style: _bodyDefaultInfoTextStyle,
-                    ),
-                    Text(
-                      '보유수량',
-                      style: _bodyDefaultInfoTextStyle,
-                    ),
-                    Text(
-                      '시작 날짜',
-                      style: _bodyDefaultInfoTextStyle,
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text('\$${data.invest_balance}',
-                        style: _bodyDefaultInfoTextStyle),
-                    Text('\$${(data.avg_price).toStringAsFixed(2)}',
-                        style: _bodyDefaultInfoTextStyle),
-                    Text('\$${data.cur_price}'),
-                    Text('${data.n}', style: _bodyDefaultInfoTextStyle),
-                    Text('${data.start_date}'),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      '분할 수',
-                      style: _bodyDefaultInfoTextStyle,
-                    ),
-                    Text(
-                      '매도 수수료',
-                      style: _bodyDefaultInfoTextStyle,
-                    ),
-                    Text(
-                      '누적 매수금',
-                      style: _bodyDefaultInfoTextStyle,
-                    ),
-                    Text('1회 매수금', style: _bodyDefaultInfoTextStyle),
-                    Text('1회 매수량', style: _bodyDefaultInfoTextStyle),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text('${data.nSplit}'),
-                    Text('${data.sellFees}%'),
-                    Text('\$${data.buy_balance.toStringAsFixed(2)}',
-                        style: _bodyDefaultInfoTextStyle),
-                    Text(
-                        '\$${(data.invest_balance / data.nSplit).toStringAsFixed(1)}',
-                        style: _bodyDefaultInfoTextStyle),
-                    Text(
-                        '${(data.cur_price > 0 ? data.invest_balance / data.nSplit ~/ data.cur_price : 0).toStringAsFixed(0)}',
-                        style: _bodyDefaultInfoTextStyle),
-                  ],
-                ),
+            DefaultInfoTile(
+              values: [
+                '투자금',
+                '\$${data.invest_balance}',
+                '분할 수',
+                '${data.nSplit}',
               ],
             ),
+            DefaultInfoTile(
+              values: [
+                '평단가',
+                '\$${(data.avg_price).toStringAsFixed(2)}',
+                '매도 수수료',
+                '${data.sellFees}%',
+              ],
+            ),
+            DefaultInfoTile(
+              values: [
+                '현재가',
+                '\$${data.cur_price}',
+                '누적 매수금',
+                '\$${data.buy_balance.toStringAsFixed(2)}',
+              ],
+            ),
+            DefaultInfoTile(
+              values: [
+                '보유수량',
+                '${data.n}',
+                '1회 매수금',
+                '\$${(data.invest_balance / data.nSplit).toStringAsFixed(1)}',
+              ],
+            ),
+            DefaultInfoTile(
+              values: [
+                '시작날짜',
+                '${data.start_date}',
+                '1회 매수량',
+                '${(data.cur_price > 0 ? data.invest_balance / data.nSplit ~/ data.cur_price : 0).toStringAsFixed(0)}',
+              ],
+            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //   children: [
+            //     Column(
+            //       children: [
+            //         Text(
+            //           '투자금',
+            //           style: _bodyDefaultInfoTextStyle,
+            //         ),
+            //         Text(
+            //           '평단가',
+            //           style: _bodyDefaultInfoTextStyle,
+            //         ),
+            //         Text(
+            //           '현재가',
+            //           style: _bodyDefaultInfoTextStyle,
+            //         ),
+            //         Text(
+            //           '보유수량',
+            //           style: _bodyDefaultInfoTextStyle,
+            //         ),
+            //         Text(
+            //           '시작 날짜',
+            //           style: _bodyDefaultInfoTextStyle,
+            //         ),
+            //       ],
+            //     ),
+            //     Column(
+            //       children: [
+            //         Text('\$${data.invest_balance}',
+            //             style: _bodyDefaultInfoTextStyle),
+            //         Text('\$${(data.avg_price).toStringAsFixed(2)}',
+            //             style: _bodyDefaultInfoTextStyle),
+            //         Text('\$${data.cur_price}',
+            //             style: _bodyDefaultInfoTextStyle),
+            //         Text('${data.n}', style: _bodyDefaultInfoTextStyle),
+            //         Text('${data.start_date}',
+            //             style: _bodyDefaultInfoTextStyle),
+            //       ],
+            //     ),
+            //     Column(
+            //       children: [
+            //         Text(
+            //           '분할 수',
+            //           style: _bodyDefaultInfoTextStyle,
+            //         ),
+            //         Text(
+            //           '매도 수수료',
+            //           style: _bodyDefaultInfoTextStyle,
+            //         ),
+            //         Text(
+            //           '누적 매수금',
+            //           style: _bodyDefaultInfoTextStyle,
+            //         ),
+            //         Text('1회 매수금', style: _bodyDefaultInfoTextStyle),
+            //         Text('1회 매수량', style: _bodyDefaultInfoTextStyle),
+            //       ],
+            //     ),
+            //     Column(
+            //       children: [
+            //         Text('${data.nSplit}', style: _bodyDefaultInfoTextStyle),
+            //         Text('${data.sellFees}%', style: _bodyDefaultInfoTextStyle),
+            //         Text('\$${data.buy_balance.toStringAsFixed(2)}',
+            //             style: _bodyDefaultInfoTextStyle),
+            //         Text(
+            //             '\$${(data.invest_balance / data.nSplit).toStringAsFixed(1)}',
+            //             style: _bodyDefaultInfoTextStyle),
+            //         Text(
+            //             '${(data.cur_price > 0 ? data.invest_balance / data.nSplit ~/ data.cur_price : 0).toStringAsFixed(0)}',
+            //             style: _bodyDefaultInfoTextStyle),
+            //       ],
+            //     ),
+            //   ],
+            // ),
           ],
         )));
+  }
+}
+
+class DefaultInfoTile extends StatelessWidget {
+  final List<String> values;
+
+  const DefaultInfoTile({Key? key, required this.values}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+            flex: 1,
+            child: Center(
+              child: Text(
+                // '투자금',
+                values[0],
+                style: _bodyDefaultInfoTextStyle,
+                // textAlign: TextAlign.center,
+              ),
+            )),
+        Expanded(
+          flex: 1,
+          child: Center(
+            child: Text(
+              // '\$${data.invest_balance}',
+              values[1],
+              style: _bodyDefaultInfoTextStyle,
+              // textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        Expanded(
+            flex: 1,
+            child: Center(
+              child: Text(
+                // '분할 수',
+                values[2],
+                style: _bodyDefaultInfoTextStyle,
+                // textAlign: TextAlign.center,
+              ),
+            )),
+        Expanded(
+            flex: 1,
+            child: Center(
+              child: Text(
+                // '${data.nSplit}',
+                values[3],
+                style: _bodyDefaultInfoTextStyle,
+                // textAlign: TextAlign.center,
+              ),
+            )),
+      ],
+    );
   }
 }
 

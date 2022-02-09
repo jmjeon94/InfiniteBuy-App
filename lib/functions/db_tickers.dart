@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 final Controller c = Get.find();
 
 Future<Database> database() async {
-  return openDatabase(p.join(await getDatabasesPath(), 'tickers.db'),
+  return openDatabase(p.join(await getDatabasesPath(), 'tickers_ver120.db'),
       onCreate: (db, version) {
     return db.execute(
       "CREATE TABLE tickers(idx INTEGER, name TEXT, invest_balance REAL, n INTEGER, avg_price REAL, cur_price REAL, start_date TEXT, nSplit INTEGER, sellFees REAL, version TEXT)",
