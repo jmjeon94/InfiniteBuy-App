@@ -262,7 +262,7 @@ Map get_orders({required Ticker ticker}) {
     orders['buy'].add(_make_order(
         method: 'LOC 매수', price: ticker.avg_price, n: n_buy_list[0]));
     orders['buy'].add(_make_order(
-        method: 'LOC 매수', price: ticker.avg_price * 1.15, n: n_buy_list[1]));
+        method: 'LOC 매수', price: ticker.cur_price * 1.15, n: n_buy_list[1]));
 
     // 매도 정보
     orders['sell'].add(_make_order(
