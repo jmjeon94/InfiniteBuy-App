@@ -1,1 +1,1 @@
-String CUR_VERSION = '1.1.3';
+String CUR_VERSION = '1.2.0';
