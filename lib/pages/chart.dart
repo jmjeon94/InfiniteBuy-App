@@ -204,6 +204,7 @@ class CustomLineChartState extends State<CustomLineChart> {
         invest_balance: ticker.invest_balance,
         data: data,
         version: ticker.version,
+        nSplit: ticker.nSplit,
         debugPrint: false);
     // print(_price_data);
 

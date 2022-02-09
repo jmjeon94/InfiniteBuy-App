@@ -22,6 +22,8 @@ class _AddTickerPageState extends State<AddTickerPage> {
   var avg_price;
   var invest_balance;
   var cur_price;
+  var nSplit;
+  var sellFees;
   var today = DateTime.now();
   var year, month, date;
 
@@ -142,6 +144,39 @@ class _AddTickerPageState extends State<AddTickerPage> {
                 return null;
               },
             ),
+
+            Row(
+              children: [
+                Expanded(flex:1, child: TextForm(
+                  '분할 수',
+                  initialValue: '40',
+                  keyboardType: TextInputType.number,
+                  onSaved: (value) {
+                    nSplit = value;
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return '분할 수를 입력해주세요.';
+                    }
+                    return null;
+                  },
+                ),),
+                Expanded(flex:1, child: TextForm(
+                  '매도 수수료(%)',
+                  initialValue: '0.25',
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  onSaved: (value) {
+                    sellFees = value;
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return '매도 수수료를 입력해주세요.';
+                    }
+                    return null;
+                  },
+                ),)
+              ],
+            ),
             Container(
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 height: 40,
@@ -190,6 +225,8 @@ class _AddTickerPageState extends State<AddTickerPage> {
                         avg_price: double.parse(avg_price),
                         cur_price: c.get_ticker_price(ticker_name),
                         start_date: '$year-$month-$date',
+                        nSplit: int.parse(nSplit),
+                        sellFees: num.parse(sellFees),
                       );
                       c.add_ticker(ticker: t);
                     }
@@ -211,11 +248,13 @@ class TextForm extends StatelessWidget {
   var validator;
   var keyboardType;
   var onSaved;
+  var initialValue;
 
   TextForm(this.name,
       {required this.validator,
       this.keyboardType = TextInputType.number,
-      this.onSaved});
+      this.onSaved,
+      this.initialValue});
 
   @override
   Widget build(BuildContext context) {
@@ -227,6 +266,7 @@ class TextForm extends StatelessWidget {
           margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
           child: TextFormField(
             autofocus: true,
+            initialValue: initialValue,
             cursorColor: mainColor,
             decoration: InputDecoration(
               border: OutlineInputBorder(),

@@ -10,7 +10,7 @@ Future<Database> database() async {
   return openDatabase(p.join(await getDatabasesPath(), 'tickers.db'),
       onCreate: (db, version) {
     return db.execute(
-      "CREATE TABLE tickers(idx INTEGER, name TEXT, invest_balance REAL, n INTEGER, avg_price REAL, cur_price REAL, start_date TEXT, version TEXT)",
+      "CREATE TABLE tickers(idx INTEGER, name TEXT, invest_balance REAL, n INTEGER, avg_price REAL, cur_price REAL, start_date TEXT, nSplit INTEGER, sellFees REAL, version TEXT)",
     );
   }, version: 1);
 }
@@ -62,6 +62,8 @@ Future<List<Ticker>> get_tickers_from_db() async {
       avg_price: maps[i]['avg_price'],
       cur_price: maps[i]['cur_price'],
       start_date: maps[i]['start_date'],
+      nSplit: maps[i]['nSplit'],
+      sellFees: maps[i]['sellFees'],
       version: maps[i]['version'],
     );
   });
@@ -93,6 +95,8 @@ Future<void> sync_db_indices() async {
           avg_price: maps[i]['avg_price'],
           cur_price: maps[i]['cur_price'],
           start_date: maps[i]['start_date'],
+          nSplit: maps[i]['nSplit'],
+          sellFees: maps[i]['sellFees'],
           version: maps[i]['version'],
         ));
   }

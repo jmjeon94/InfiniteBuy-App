@@ -242,7 +242,7 @@ class _SummaryTileInfo extends StatelessWidget {
 
 Map get_orders({required Ticker ticker}) {
   String ver = ticker.version;
-  num one_balance = ticker.invest_balance / 40;
+  num one_balance = ticker.invest_balance / ticker.nSplit;
   int one_n = ticker.cur_price > 0 ? one_balance ~/ ticker.cur_price : 0;
   num process_ratio = ticker.process_ratio;
 
@@ -266,7 +266,9 @@ Map get_orders({required Ticker ticker}) {
 
     // 매도 정보
     orders['sell'].add(_make_order(
-        method: '지정가 매도', price: ticker.avg_price * 1.1, n: ticker.n));
+        method: '지정가 매도',
+        price: ticker.avg_price * 1.1 * (1 + ticker.sellFees / 100),
+        n: ticker.n));
   } else if (ver == '2.1') {
     if (process_ratio < 50) {
       // 전반 매수 정보
@@ -279,9 +281,13 @@ Map get_orders({required Ticker ticker}) {
       // 전반 매도 정보
       List n_sell_list = calc_n(ticker.n, [0.25, 0.75]);
       orders['sell'].add(_make_order(
-          method: 'LOC 매도', price: ticker.avg_price * 1.05, n: n_sell_list[0]));
+          method: 'LOC 매도',
+          price: ticker.avg_price * 1.05 * (1 + ticker.sellFees / 100),
+          n: n_sell_list[0]));
       orders['sell'].add(_make_order(
-          method: '지정가 매도', price: ticker.avg_price * 1.10, n: n_sell_list[1]));
+          method: '지정가 매도',
+          price: ticker.avg_price * 1.10 * (1 + ticker.sellFees / 100),
+          n: n_sell_list[1]));
     } else {
       //후반 매수 정보
       List n_buy_list = calc_n(one_n, [1.0]);
@@ -291,11 +297,17 @@ Map get_orders({required Ticker ticker}) {
       //후반 매도 정보
       List n_sell_list = calc_n(ticker.n, [0.25, 0.25, 0.5]);
       orders['sell'].add(_make_order(
-          method: 'LOC 매도', price: ticker.avg_price * 1.00, n: n_sell_list[0]));
+          method: 'LOC 매도',
+          price: ticker.avg_price * 1.00 * (1 + ticker.sellFees / 100),
+          n: n_sell_list[0]));
       orders['sell'].add(_make_order(
-          method: '지정가 매도', price: ticker.avg_price * 1.05, n: n_sell_list[1]));
+          method: '지정가 매도',
+          price: ticker.avg_price * 1.05 * (1 + ticker.sellFees / 100),
+          n: n_sell_list[1]));
       orders['sell'].add(_make_order(
-          method: '지정가 매도', price: ticker.avg_price * 1.10, n: n_sell_list[2]));
+          method: '지정가 매도',
+          price: ticker.avg_price * 1.10 * (1 + ticker.sellFees / 100),
+          n: n_sell_list[2]));
     }
   }
 

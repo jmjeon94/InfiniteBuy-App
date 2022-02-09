@@ -46,11 +46,13 @@ class Account {
   }
 }
 
-Map simulate(
-    {required num invest_balance,
-    required Map data,
-    String version = '2.1',
-    bool debugPrint = false}) {
+Map simulate({
+  required num invest_balance,
+  required Map data,
+  required int nSplit,
+  String version = '2.1',
+  bool debugPrint = false,
+}) {
   List date = data['date'];
   List close_price = data['close'];
   // List low_price = data['low'];
@@ -63,9 +65,11 @@ Map simulate(
     // [Version 1] 0.5회 평단 loc매수, 0.5회 큰수(시장+10%) loc매수
     if (version == '1') {
       var n_buy = calc_n_buy(
-          ratio: [0.5, 0.5],
-          invest_balance: invest_balance,
-          cur_price: close_price[i]);
+        ratio: [0.5, 0.5],
+        invest_balance: invest_balance,
+        cur_price: close_price[i],
+        n_split: nSplit,
+      );
 
       if (i == 0 || close_price[i] <= acc.avg_price) {
         acc.buy(price: close_price[i], n_buy: n_buy[0]);
@@ -85,7 +89,8 @@ Map simulate(
         var n_buy = calc_n_buy(
             ratio: [0.5, 0.5],
             invest_balance: invest_balance,
-            cur_price: close_price[i]);
+            cur_price: close_price[i],
+            n_split: nSplit);
         if (i == 0 || close_price[i] <= acc.avg_price) {
           acc.buy(price: close_price[i], n_buy: n_buy[0]);
         }
@@ -96,7 +101,8 @@ Map simulate(
         var n_buy = calc_n_buy(
             ratio: [1.0],
             invest_balance: invest_balance,
-            cur_price: close_price[i]);
+            cur_price: close_price[i],
+            n_split: nSplit);
 
         if (close_price[i] <= acc.avg_price) {
           acc.buy(price: close_price[i], n_buy: n_buy[0]);

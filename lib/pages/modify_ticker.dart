@@ -18,7 +18,8 @@ class _AddTickerPageState extends State<ModifyTickerPage> {
   var avg_price;
   var invest_balance;
   var year, month, date;
-
+  var nSplit;
+  var sellFees;
   var idx = Get.arguments;
 
   void showDatePickerPop() {
@@ -92,9 +93,9 @@ class _AddTickerPageState extends State<ModifyTickerPage> {
                     return '금액을 입력해주세요.';
                   } else if (double.parse(value) <= 0) {
                     var min_invest_balance = 0;
-                    for(var t in c.tickers_price_list){
-                      if (t['name']==c.tickers[idx].name){
-                        min_invest_balance = t['close_price']*2*40;
+                    for (var t in c.tickers_price_list) {
+                      if (t['name'] == c.tickers[idx].name) {
+                        min_invest_balance = t['close_price'] * 2 * 40;
                         break;
                       }
                     }
@@ -142,6 +143,45 @@ class _AddTickerPageState extends State<ModifyTickerPage> {
                 return null;
               },
             ),
+            Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: TextForm(
+                    '분할 수',
+                    initialValue: c.tickers[idx].nSplit.toString(),
+                    keyboardType: TextInputType.number,
+                    onSaved: (value) {
+                      nSplit = value;
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return '분할 수를 입력해주세요.';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: TextForm(
+                    '매도 수수료(%)',
+                    initialValue: c.tickers[idx].sellFees.toString(),
+                    keyboardType:
+                        TextInputType.numberWithOptions(decimal: true),
+                    onSaved: (value) {
+                      sellFees = value;
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return '매도 수수료를 입력해주세요.';
+                      }
+                      return null;
+                    },
+                  ),
+                )
+              ],
+            ),
             Container(
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 height: 40,
@@ -175,11 +215,14 @@ class _AddTickerPageState extends State<ModifyTickerPage> {
                     _formKey.currentState!.save();
 
                     c.update_ticker(
-                        idx: idx,
-                        invest_balance: double.parse(invest_balance),
-                        n: int.parse(n),
-                        avg_price: double.parse(avg_price),
-                        start_date: '$year-$month-$date');
+                      idx: idx,
+                      invest_balance: double.parse(invest_balance),
+                      n: int.parse(n),
+                      avg_price: double.parse(avg_price),
+                      start_date: '$year-$month-$date',
+                      nSplit: int.parse(nSplit),
+                      sellFees: num.parse(sellFees),
+                    );
 
                     Get.back();
 

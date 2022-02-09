@@ -19,7 +19,7 @@ List<num> calc_n_buy(
     {required List<double> ratio,
       required num invest_balance,
       required num cur_price,
-      int n_split = 40}) {
+      required int n_split}) {
   // 하루에 구매할 금액, 개수 계산
   var one_balance = invest_balance / n_split;
   var one_n = cur_price > 0 ? one_balance ~/ cur_price : 0;

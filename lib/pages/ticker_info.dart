@@ -40,7 +40,7 @@ class TickerInfo extends StatelessWidget {
             ),
             IconButton(
               color: fontColorGrey,
-              onPressed: () async{
+              onPressed: () async {
                 await showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -55,8 +55,7 @@ class TickerInfo extends StatelessWidget {
                       ),
                       actions: <Widget>[
                         TextButton(
-                          onPressed: () => Navigator.pop(
-                              context, false),
+                          onPressed: () => Navigator.pop(context, false),
                           child: const Text('취소'),
                         ),
                         TextButton(
@@ -71,7 +70,6 @@ class TickerInfo extends StatelessWidget {
                     );
                   },
                 );
-
               },
               icon: Icon(Icons.delete_outline_rounded),
             ),
@@ -100,7 +98,6 @@ class TickerInfo extends StatelessWidget {
                 child: Text(
               '위 그래프는 시작 날짜에 따른 시뮬레이션 결과로 실제와 다를 수 있습니다.',
               style: textStyleWarning,
-
             ))
           ],
         ));
@@ -213,6 +210,10 @@ class DefaultInfo extends StatelessWidget {
                       '보유수량',
                       style: _bodyDefaultInfoTextStyle,
                     ),
+                    Text(
+                      '시작 날짜',
+                      style: _bodyDefaultInfoTextStyle,
+                    ),
                   ],
                 ),
                 Column(
@@ -223,12 +224,17 @@ class DefaultInfo extends StatelessWidget {
                         style: _bodyDefaultInfoTextStyle),
                     Text('\$${data.cur_price}'),
                     Text('${data.n}', style: _bodyDefaultInfoTextStyle),
+                    Text('${data.start_date}'),
                   ],
                 ),
                 Column(
                   children: [
                     Text(
-                      '시작 날짜',
+                      '분할 수',
+                      style: _bodyDefaultInfoTextStyle,
+                    ),
+                    Text(
+                      '매도 수수료',
                       style: _bodyDefaultInfoTextStyle,
                     ),
                     Text(
@@ -241,13 +247,15 @@ class DefaultInfo extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    Text('${data.start_date}'),
+                    Text('${data.nSplit}'),
+                    Text('${data.sellFees}%'),
                     Text('\$${data.buy_balance.toStringAsFixed(2)}',
                         style: _bodyDefaultInfoTextStyle),
-                    Text('\$${(data.invest_balance / 40).toStringAsFixed(1)}',
+                    Text(
+                        '\$${(data.invest_balance / data.nSplit).toStringAsFixed(1)}',
                         style: _bodyDefaultInfoTextStyle),
                     Text(
-                        '${(data.cur_price > 0 ? data.invest_balance / 40 ~/ data.cur_price : 0).toStringAsFixed(0)}',
+                        '${(data.cur_price > 0 ? data.invest_balance / data.nSplit ~/ data.cur_price : 0).toStringAsFixed(0)}',
                         style: _bodyDefaultInfoTextStyle),
                   ],
                 ),
@@ -332,7 +340,8 @@ class BuyMethod extends StatelessWidget {
     var n_buy = calc_n_buy(
         ratio: [0.5, 0.5],
         invest_balance: data.invest_balance,
-        cur_price: data.cur_price);
+        cur_price: data.cur_price,
+        n_split: data.nSplit);
 
     if (data.n == 0) {
       return Container(
@@ -346,7 +355,9 @@ class BuyMethod extends StatelessWidget {
             SizedBox(height: 10),
             Center(
                 child: Text(
-                    '1회차는 장중 매수, LOC매수 선택하여 ${(data.cur_price > 0 ? data.invest_balance / 40 ~/ data.cur_price : 0).toStringAsFixed(0)}주 매수',
+                    '1회차는 장중 매수, LOC매수 선택하여 '
+                    '${(data.cur_price > 0 ? data.invest_balance / data.nSplit ~/ data.cur_price : 0).toStringAsFixed(0)}주'
+                    ' 매수',
                     style: _bodyMethodInfoTextStyle)),
           ],
         ),
@@ -453,7 +464,7 @@ class BuyMethod extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      '\$${data.avg_price.toStringAsFixed(2)} x ${(data.cur_price > 0 ? data.invest_balance / 40 ~/ data.cur_price : 0).toStringAsFixed(0)}주',
+                      '\$${data.avg_price.toStringAsFixed(2)} x ${(data.cur_price > 0 ? data.invest_balance / data.nSplit ~/ data.cur_price : 0).toStringAsFixed(0)}주',
                       style: _bodyMethodInfoTextStyle,
                     ),
                   ],
@@ -506,7 +517,7 @@ class SellMethod extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      '\$${(data.avg_price * 1.1).toStringAsFixed(2)} x ${n_sell[0]}주',
+                      '\$${(data.avg_price * 1.1 * (1 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[0]}주',
                       style: _bodyMethodInfoTextStyle,
                     ),
                   ],
@@ -548,11 +559,11 @@ class SellMethod extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      '\$${(data.avg_price * 1.05).toStringAsFixed(2)} x ${n_sell[0]}주',
+                      '\$${(data.avg_price * 1.05 * (1 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[0]}주',
                       style: _bodyMethodInfoTextStyle,
                     ),
                     Text(
-                      '\$${(data.avg_price * 1.1).toStringAsFixed(2)} x ${n_sell[1]}주',
+                      '\$${(data.avg_price * 1.1 * (1 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[1]}주',
                       style: _bodyMethodInfoTextStyle,
                     ),
                   ],
@@ -598,15 +609,15 @@ class SellMethod extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      '\$${(data.avg_price).toStringAsFixed(2)} x ${n_sell[0]}주',
+                      '\$${(data.avg_price * (1 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[0]}주',
                       style: _bodyMethodInfoTextStyle,
                     ),
                     Text(
-                      '\$${(data.avg_price * 1.05).toStringAsFixed(2)} x ${n_sell[1]}주',
+                      '\$${(data.avg_price * 1.05 * (1 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[1]}주',
                       style: _bodyMethodInfoTextStyle,
                     ),
                     Text(
-                      '\$${(data.avg_price * 1.1).toStringAsFixed(2)} x ${n_sell[2]}주',
+                      '\$${(data.avg_price * 1.1 * (1 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[2]}주',
                       style: _bodyMethodInfoTextStyle,
                     )
                   ],

@@ -5,6 +5,8 @@ import 'package:letmebuy/styles/style.dart';
 import 'package:get/get.dart';
 import 'package:letmebuy/tickers_controller.dart';
 
+List _flexList = [10, 9, 12, 10, 10, 10];
+
 // RSI List
 class RSIList extends StatefulWidget {
   const RSIList({Key? key}) : super(key: key);
@@ -87,19 +89,19 @@ class Header extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-            width: 0,
+            width: 10,
           ),
-          Container(
-              width: 60,
+          Expanded(
+              flex: _flexList[0],
               child: Text(
                 '종목',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               )),
-          Container(
-              width: 50,
+          Expanded(
+              flex: _flexList[1],
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     '상태',
@@ -108,7 +110,6 @@ class Header extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: () async {
-
                       return await showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -181,27 +182,38 @@ class Header extends StatelessWidget {
                   )
                 ],
               )),
-          Container(
-              width: 50,
+          Expanded(
+            flex: _flexList[2],
+            child: Text(
+              '현재가',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Expanded(
+              flex: _flexList[3],
               child: Text(
                 'RSI\n기준',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
               )),
-          Container(
-              width: 50,
+          Expanded(
+              flex: _flexList[4],
               child: Text(
                 'RSI\n현재',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
               )),
-          Container(
-              width: 90,
+          Expanded(
+              flex: _flexList[5],
               child: Text(
-                'RSI\n증감률',
+                'RSI\n증감',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
               )),
+          SizedBox(
+            width: 10,
+          )
         ],
       ),
     );
@@ -219,7 +231,7 @@ class RSIWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var rsi_diff = c.tickers_price_list[idx]['cur_rsi'] -
         c.tickers_price_list[idx]['ref_rsi'];
-    var rsi_diff_ratio = rsi_diff / c.tickers_price_list[idx]['ref_rsi'];
+    // var rsi_diff_ratio = rsi_diff / c.tickers_price_list[idx]['ref_rsi'] * 100;
 
     return Container(
       height: 60,
@@ -227,34 +239,41 @@ class RSIWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            width: 60,
+          Expanded(
+            flex: _flexList[0],
             child: Text(
               '${c.tickers_price_list[idx]['name']}',
               textAlign: TextAlign.center,
             ),
             // decoration: BoxDecoration(border: Border.all(color: Colors.yellow)),
           ),
-          Container(
-            width: 50,
+          Expanded(
+            flex: _flexList[1],
             child: get_rsi_icon(rsi_diff),
           ),
-          Container(
-              width: 50,
+          Expanded(
+              flex: _flexList[2],
+              child: Text(
+                '\$${c.tickers_price_list[idx]['close_price']}',
+                textAlign: TextAlign.center,
+              )),
+          Expanded(
+              flex: _flexList[3],
               child: Text(
                 '${c.tickers_price_list[idx]['ref_rsi']}',
                 textAlign: TextAlign.center,
               )),
-          Container(
-              width: 50,
+          Expanded(
+              flex: _flexList[4],
               child: Obx(() => Text(
                     "${c.tickers_price_list[idx]['cur_rsi']}",
                     textAlign: TextAlign.center,
                   ))),
-          Container(
-              width: 90,
+          Expanded(
+              flex: _flexList[5],
               child: Text(
-                "${rsi_diff.toStringAsFixed(1)}(${rsi_diff_ratio.toStringAsFixed(0)}%)",
+                "${rsi_diff.toStringAsFixed(1)}",
+                //(${rsi_diff_ratio.toStringAsFixed(0)}%)",
                 textAlign: TextAlign.center,
               )),
         ],

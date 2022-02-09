@@ -282,7 +282,7 @@ class _AddSellInfoFromTickerModalState
                                   : 0);
                             }
 
-                            print(nTotalSell);
+                            // print(nTotalSell);
                             // 전체 매도 시
                             if (nTotalSell == 0) {
                               // 매도 할 게 없는 경우 수정, 삭제하지 않고 스낵바 알림

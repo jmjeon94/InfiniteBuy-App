@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'functions/db_tickers.dart' as db;
@@ -15,6 +14,8 @@ class Ticker {
   var avg_price;
   var version;
   var start_date;
+  var nSplit;
+  var sellFees;
 
   // fetch하여 입력받는 값
   var cur_price;
@@ -31,6 +32,8 @@ class Ticker {
     this.avg_price,
     this.cur_price,
     this.start_date,
+    this.nSplit,
+    this.sellFees,
     this.version}) {
     buy_balance = n * avg_price;
     profit_ratio = n > 0 ? (cur_price - avg_price) / avg_price * 100 : 0;
@@ -45,7 +48,7 @@ class Ticker {
 
   @override
   String toString() {
-    return '[Idx:${idx}] Ticker: ${name}, 시드:${invest_balance}, 개수:${n}, 평단가:${avg_price}, 현재가:${cur_price}, 시작날짜:${start_date}, 버전:${version}';
+    return '[Idx:${idx}] Ticker: ${name}, 시드:${invest_balance}, 개수:${n}, 평단가:${avg_price}, 현재가:${cur_price}, 시작날짜:${start_date}, 분할수:${nSplit}, 매도수수료:${sellFees}, 버전:${version}';
   }
 
   Map<String, dynamic> toMap() {
@@ -57,6 +60,8 @@ class Ticker {
       'avg_price': avg_price,
       'cur_price': cur_price,
       'start_date': start_date,
+      'nSplit': nSplit,
+      'sellFees': sellFees,
       'version': version,
     };
   }
@@ -67,6 +72,8 @@ class Ticker {
     num? n,
     num? avg_price,
     String? start_date,
+    num? nSplit,
+    num? sellFees,
     String? version}) {
     // 입력값 업데이트 (입력되지 않으면 기존값 사용)
     this.idx = idx ?? this.idx;
@@ -75,6 +82,8 @@ class Ticker {
     this.avg_price = avg_price ?? this.avg_price;
     this.cur_price = cur_price ?? this.cur_price;
     this.start_date = start_date ?? this.start_date;
+    this.nSplit = nSplit ?? this.nSplit;
+    this.sellFees = sellFees ?? this.sellFees;
     this.version = version ?? this.version;
 
     // 값계산
@@ -376,6 +385,8 @@ class Controller extends GetxController {
         num? n,
         num? avg_price,
         String? start_date,
+        num? nSplit,
+        num? sellFees,
         String? version}) {
     for (int i = 0; i < tickers.length; i++) {
       var t = tickers[i];
@@ -388,6 +399,8 @@ class Controller extends GetxController {
             n: n,
             avg_price: avg_price,
             start_date: start_date,
+            nSplit: nSplit,
+            sellFees: sellFees,
             version: version);
 
         // db update
@@ -402,6 +415,8 @@ class Controller extends GetxController {
     num? n,
     num? avg_price,
     String? start_date,
+    num? nSplit,
+    num? sellFees,
     String? version}) {
     tickers[idx] = tickers[idx].update(
         invest_balance: invest_balance,
@@ -409,6 +424,8 @@ class Controller extends GetxController {
         n: n,
         avg_price: avg_price,
         start_date: start_date,
+        nSplit: nSplit,
+        sellFees: sellFees,
         version: version);
 
     // db update
