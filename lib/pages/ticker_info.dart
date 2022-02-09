@@ -614,7 +614,7 @@ class SellMethod extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      '\$${(data.avg_price * 1.1 * (1 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[0]}주',
+                      '\$${(data.avg_price * (1.1 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[0]}주',
                       style: _bodyMethodInfoTextStyle,
                     ),
                   ],
@@ -656,11 +656,11 @@ class SellMethod extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      '\$${(data.avg_price * 1.05 * (1 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[0]}주',
+                      '\$${(data.avg_price * (1.05 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[0]}주',
                       style: _bodyMethodInfoTextStyle,
                     ),
                     Text(
-                      '\$${(data.avg_price * 1.1 * (1 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[1]}주',
+                      '\$${(data.avg_price * (1.1 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[1]}주',
                       style: _bodyMethodInfoTextStyle,
                     ),
                   ],
@@ -710,11 +710,11 @@ class SellMethod extends StatelessWidget {
                       style: _bodyMethodInfoTextStyle,
                     ),
                     Text(
-                      '\$${(data.avg_price * 1.05 * (1 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[1]}주',
+                      '\$${(data.avg_price * (1.05 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[1]}주',
                       style: _bodyMethodInfoTextStyle,
                     ),
                     Text(
-                      '\$${(data.avg_price * 1.1 * (1 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[2]}주',
+                      '\$${(data.avg_price * (1.1 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[2]}주',
                       style: _bodyMethodInfoTextStyle,
                     )
                   ],

@@ -267,7 +267,7 @@ Map get_orders({required Ticker ticker}) {
     // 매도 정보
     orders['sell'].add(_make_order(
         method: '지정가 매도',
-        price: ticker.avg_price * 1.1 * (1 + ticker.sellFees / 100),
+        price: ticker.avg_price * (1.1 + ticker.sellFees / 100),
         n: ticker.n));
   } else if (ver == '2.1') {
     if (process_ratio < 50) {
@@ -282,11 +282,11 @@ Map get_orders({required Ticker ticker}) {
       List n_sell_list = calc_n(ticker.n, [0.25, 0.75]);
       orders['sell'].add(_make_order(
           method: 'LOC 매도',
-          price: ticker.avg_price * 1.05 * (1 + ticker.sellFees / 100),
+          price: ticker.avg_price * (1.05 + ticker.sellFees / 100),
           n: n_sell_list[0]));
       orders['sell'].add(_make_order(
           method: '지정가 매도',
-          price: ticker.avg_price * 1.10 * (1 + ticker.sellFees / 100),
+          price: ticker.avg_price * (1.10 + ticker.sellFees / 100),
           n: n_sell_list[1]));
     } else {
       //후반 매수 정보
@@ -298,15 +298,15 @@ Map get_orders({required Ticker ticker}) {
       List n_sell_list = calc_n(ticker.n, [0.25, 0.25, 0.5]);
       orders['sell'].add(_make_order(
           method: 'LOC 매도',
-          price: ticker.avg_price * 1.00 * (1 + ticker.sellFees / 100),
+          price: ticker.avg_price * (1.00 + ticker.sellFees / 100),
           n: n_sell_list[0]));
       orders['sell'].add(_make_order(
           method: '지정가 매도',
-          price: ticker.avg_price * 1.05 * (1 + ticker.sellFees / 100),
+          price: ticker.avg_price * (1.05 + ticker.sellFees / 100),
           n: n_sell_list[1]));
       orders['sell'].add(_make_order(
           method: '지정가 매도',
-          price: ticker.avg_price * 1.10 * (1 + ticker.sellFees / 100),
+          price: ticker.avg_price * (1.10 + ticker.sellFees / 100),
           n: n_sell_list[2]));
     }
   }
