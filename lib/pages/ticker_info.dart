@@ -229,80 +229,6 @@ class DefaultInfo extends StatelessWidget {
                 '${(data.cur_price > 0 ? data.invest_balance / data.nSplit ~/ data.cur_price : 0).toStringAsFixed(0)}',
               ],
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //   children: [
-            //     Column(
-            //       children: [
-            //         Text(
-            //           '투자금',
-            //           style: _bodyDefaultInfoTextStyle,
-            //         ),
-            //         Text(
-            //           '평단가',
-            //           style: _bodyDefaultInfoTextStyle,
-            //         ),
-            //         Text(
-            //           '현재가',
-            //           style: _bodyDefaultInfoTextStyle,
-            //         ),
-            //         Text(
-            //           '보유수량',
-            //           style: _bodyDefaultInfoTextStyle,
-            //         ),
-            //         Text(
-            //           '시작 날짜',
-            //           style: _bodyDefaultInfoTextStyle,
-            //         ),
-            //       ],
-            //     ),
-            //     Column(
-            //       children: [
-            //         Text('\$${data.invest_balance}',
-            //             style: _bodyDefaultInfoTextStyle),
-            //         Text('\$${(data.avg_price).toStringAsFixed(2)}',
-            //             style: _bodyDefaultInfoTextStyle),
-            //         Text('\$${data.cur_price}',
-            //             style: _bodyDefaultInfoTextStyle),
-            //         Text('${data.n}', style: _bodyDefaultInfoTextStyle),
-            //         Text('${data.start_date}',
-            //             style: _bodyDefaultInfoTextStyle),
-            //       ],
-            //     ),
-            //     Column(
-            //       children: [
-            //         Text(
-            //           '분할 수',
-            //           style: _bodyDefaultInfoTextStyle,
-            //         ),
-            //         Text(
-            //           '매도 수수료',
-            //           style: _bodyDefaultInfoTextStyle,
-            //         ),
-            //         Text(
-            //           '누적 매수금',
-            //           style: _bodyDefaultInfoTextStyle,
-            //         ),
-            //         Text('1회 매수금', style: _bodyDefaultInfoTextStyle),
-            //         Text('1회 매수량', style: _bodyDefaultInfoTextStyle),
-            //       ],
-            //     ),
-            //     Column(
-            //       children: [
-            //         Text('${data.nSplit}', style: _bodyDefaultInfoTextStyle),
-            //         Text('${data.sellFees}%', style: _bodyDefaultInfoTextStyle),
-            //         Text('\$${data.buy_balance.toStringAsFixed(2)}',
-            //             style: _bodyDefaultInfoTextStyle),
-            //         Text(
-            //             '\$${(data.invest_balance / data.nSplit).toStringAsFixed(1)}',
-            //             style: _bodyDefaultInfoTextStyle),
-            //         Text(
-            //             '${(data.cur_price > 0 ? data.invest_balance / data.nSplit ~/ data.cur_price : 0).toStringAsFixed(0)}',
-            //             style: _bodyDefaultInfoTextStyle),
-            //       ],
-            //     ),
-            //   ],
-            // ),
           ],
         )));
   }
@@ -321,7 +247,6 @@ class DefaultInfoTile extends StatelessWidget {
             flex: 1,
             child: Center(
               child: Text(
-                // '투자금',
                 values[0],
                 style: _bodyDefaultInfoTextStyle,
                 // textAlign: TextAlign.center,
@@ -331,7 +256,6 @@ class DefaultInfoTile extends StatelessWidget {
           flex: 1,
           child: Center(
             child: Text(
-              // '\$${data.invest_balance}',
               values[1],
               style: _bodyDefaultInfoTextStyle,
               // textAlign: TextAlign.center,
@@ -342,7 +266,6 @@ class DefaultInfoTile extends StatelessWidget {
             flex: 1,
             child: Center(
               child: Text(
-                // '분할 수',
                 values[2],
                 style: _bodyDefaultInfoTextStyle,
                 // textAlign: TextAlign.center,
@@ -352,7 +275,6 @@ class DefaultInfoTile extends StatelessWidget {
             flex: 1,
             child: Center(
               child: Text(
-                // '${data.nSplit}',
                 values[3],
                 style: _bodyDefaultInfoTextStyle,
                 // textAlign: TextAlign.center,
@@ -427,6 +349,98 @@ class BuySellInfo extends StatelessWidget {
   }
 }
 
+class SellTile extends StatelessWidget {
+  final List orders;
+
+  const SellTile({Key? key, required this.orders}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> widget_list = [];
+
+    for (var order in orders) {
+      widget_list.add(Container(
+        padding: EdgeInsets.symmetric(vertical: 2),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              order['method'],
+              style: _bodyMethodInfoTextStyle,
+            ),
+            Text(
+              order['order'],
+              style: _bodyMethodInfoTextStyle,
+            )
+          ],
+        ),
+      ));
+    }
+
+    return Container(
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+      child: Column(
+        children: [
+          Text(
+            '매도방법',
+            style: _titleTextStyle,
+          ),
+          SizedBox(height: 10),
+          Column(
+            children: widget_list,
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class BuyTile extends StatelessWidget {
+  final List orders;
+
+  const BuyTile({Key? key, required this.orders}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> widget_list = [];
+
+    for (var order in orders) {
+      widget_list.add(Container(
+        padding: EdgeInsets.symmetric(vertical: 2),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              order['method'],
+              style: _bodyMethodInfoTextStyle,
+            ),
+            Text(
+              order['order'],
+              style: _bodyMethodInfoTextStyle,
+            )
+          ],
+        ),
+      ));
+    }
+
+    return Container(
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+      child: Column(
+        children: [
+          Text(
+            '매수방법',
+            style: _titleTextStyle,
+          ),
+          SizedBox(height: 10),
+          Column(
+            children: widget_list,
+          )
+        ],
+      ),
+    );
+  }
+}
+
 class BuyMethod extends StatelessWidget {
   var data;
 
@@ -434,6 +448,10 @@ class BuyMethod extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List order_list = [];
+    num one_balance = data.invest_balance / data.nSplit;
+    int one_n = data.cur_price > 0 ? one_balance ~/ data.cur_price : 0;
+
     var n_buy = calc_n_buy(
         ratio: [0.5, 0.5],
         invest_balance: data.invest_balance,
@@ -441,139 +459,49 @@ class BuyMethod extends StatelessWidget {
         n_split: data.nSplit);
 
     if (data.n == 0) {
-      return Container(
-        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-        child: Column(
-          children: [
-            Text(
-              '매수방법',
-              style: _titleTextStyle,
-            ),
-            SizedBox(height: 10),
-            Center(
-                child: Text(
-                    '1회차는 장중 매수, LOC매수 선택하여 '
-                    '${(data.cur_price > 0 ? data.invest_balance / data.nSplit ~/ data.cur_price : 0).toStringAsFixed(0)}주'
-                    ' 매수',
-                    style: _bodyMethodInfoTextStyle)),
-          ],
-        ),
-      );
+      order_list.add(_make_order(method: '1회차는 장중 매수, LOC매수 선택', n: one_n));
     } else if (data.version == '1') {
-      return Container(
-        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-        child: Column(
-          children: [
-            Text(
-              '매수방법',
-              style: _titleTextStyle,
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  children: [
-                    Text(
-                      '0.5회 LOC 평단매수',
-                      style: _bodyMethodInfoTextStyle,
-                    ),
-                    Text('0.5회 LOC 큰수매수', style: _bodyMethodInfoTextStyle),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      '\$${data.avg_price.toStringAsFixed(2)} x ${n_buy[0]}주',
-                      style: _bodyMethodInfoTextStyle,
-                    ),
-                    Text(
-                      '\$${(data.cur_price * 1.15).toStringAsFixed(2)} x ${n_buy[1]}주',
-                      style: _bodyMethodInfoTextStyle,
-                    )
-                  ],
-                )
-              ],
-            ),
-          ],
-        ),
-      );
+      //ver1 평단가와 시중가+15% 비교
+      if (data.avg_price > data.cur_price * 1.15) {
+        order_list.add(_make_order(
+            method: '1회 LOC 매수', n: one_n, price: data.cur_price * 1.15));
+      } else {
+        order_list.add(_make_order(
+            method: '0.5회 LOC 평단매수', n: n_buy[0], price: data.avg_price));
+        order_list.add(_make_order(
+            method: '0.5회 LOC 큰수매수',
+            n: n_buy[1],
+            price: data.cur_price * 1.15));
+      }
     } else if (data.version == '2.1' && data.process_ratio < 50) {
-      return Container(
-        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-        child: Column(
-          children: [
-            Text(
-              '매수방법',
-              style: _titleTextStyle,
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  children: [
-                    Text(
-                      '0.5회 LOC 평단매수',
-                      style: _bodyMethodInfoTextStyle,
-                    ),
-                    Text('0.5회 LOC 큰수매수', style: _bodyMethodInfoTextStyle),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      '\$${data.avg_price.toStringAsFixed(2)} x ${n_buy[0]}주',
-                      style: _bodyMethodInfoTextStyle,
-                    ),
-                    Text(
-                      '\$${(data.avg_price * 1.05).toStringAsFixed(2)} x ${n_buy[1]}주',
-                      style: _bodyMethodInfoTextStyle,
-                    )
-                  ],
-                )
-              ],
-            ),
-          ],
-        ),
-      );
+      if (data.avg_price > data.cur_price * 1.15) {
+        order_list.add(_make_order(
+            method: '1회 LOC 평단매수', n: one_n, price: data.cur_price * 1.15));
+      } else if (data.avg_price * 1.05 > data.cur_price * 1.15) {
+        order_list.add(_make_order(
+            method: '0.5회 LOC 평단매수', n: n_buy[0], price: data.avg_price));
+        order_list.add(_make_order(
+            method: '0.5회 LOC 큰수매수',
+            n: n_buy[1],
+            price: data.cur_price * 1.15));
+      } else {
+        order_list.add(_make_order(
+            method: '0.5회 LOC 평단매수', n: n_buy[0], price: data.avg_price));
+        order_list.add(_make_order(
+            method: '0.5회 LOC 큰수매수',
+            n: n_buy[1],
+            price: data.avg_price * 1.05));
+      }
     } else if (data.version == '2.1' && data.process_ratio >= 50) {
-      return Container(
-        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-        child: Column(
-          children: [
-            Text(
-              '매수방법',
-              style: _titleTextStyle,
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  children: [
-                    Text(
-                      '1회 LOC 평단매수',
-                      style: _bodyMethodInfoTextStyle,
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      '\$${data.avg_price.toStringAsFixed(2)} x ${(data.cur_price > 0 ? data.invest_balance / data.nSplit ~/ data.cur_price : 0).toStringAsFixed(0)}주',
-                      style: _bodyMethodInfoTextStyle,
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ],
-        ),
-      );
-    } else {
-      return Container();
+      if (data.avg_price > data.cur_price * 1.15) {
+        order_list.add(_make_order(
+            method: '1회 LOC 평단매수', n: one_n, price: data.cur_price * 1.15));
+      } else {
+        order_list.add(_make_order(
+            method: '1회 LOC 평단매수', n: one_n, price: data.avg_price));
+      }
     }
+    return BuyTile(orders: order_list);
   }
 }
 
@@ -584,148 +512,53 @@ class SellMethod extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List order_list = [];
     if (data.n == 0) {
       return Container();
     } else if (data.version == '1') {
       var n_sell = calc_n_sell(ratio: [1.0], n_sell: data.n);
-
-      return Container(
-        padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-        child: Column(
-          children: [
-            Text(
-              '매도방법',
-              style: _titleTextStyle,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  children: [
-                    Text(
-                      '지정가 매도 (100%)',
-                      style: _bodyMethodInfoTextStyle,
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      '\$${(data.avg_price * (1.1 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[0]}주',
-                      style: _bodyMethodInfoTextStyle,
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ],
-        ),
-      );
+      order_list.add(_make_order(
+          method: '지정가 매도 (100%)',
+          n: n_sell[0],
+          price: data.avg_price * (1.1 + data.sellFees / 100)));
     } else if (data.version == '2.1' && data.process_ratio < 50) {
       var n_sell = calc_n_sell(ratio: [0.25, 0.75], n_sell: data.n);
-
-      return Container(
-        padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-        child: Column(
-          children: [
-            Text(
-              '매도방법',
-              style: _titleTextStyle,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  children: [
-                    Text(
-                      'LOC 매도 (25%)',
-                      style: _bodyMethodInfoTextStyle,
-                    ),
-                    Text(
-                      '지정가 매도 (75%)',
-                      style: _bodyMethodInfoTextStyle,
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      '\$${(data.avg_price * (1.05 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[0]}주',
-                      style: _bodyMethodInfoTextStyle,
-                    ),
-                    Text(
-                      '\$${(data.avg_price * (1.1 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[1]}주',
-                      style: _bodyMethodInfoTextStyle,
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ],
-        ),
-      );
+      order_list.add(_make_order(
+          method: 'LOC 매도 (25%)',
+          n: n_sell[0],
+          price: (data.avg_price * (1.05 + data.sellFees / 100))));
+      order_list.add(_make_order(
+          method: '지정가 매도 (75%)',
+          n: n_sell[1],
+          price: (data.avg_price * (1.1 + data.sellFees / 100))));
     } else if (data.version == '2.1' && data.process_ratio >= 50) {
       var n_sell = calc_n_sell(ratio: [0.25, 0.25, 0.5], n_sell: data.n);
-
-      return Container(
-        padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-        child: Column(
-          children: [
-            Text(
-              '매도방법',
-              style: _titleTextStyle,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  children: [
-                    Text(
-                      'LOC 매도 (25%)',
-                      style: _bodyMethodInfoTextStyle,
-                    ),
-                    Text(
-                      '지정가 매도 (25%)',
-                      style: _bodyMethodInfoTextStyle,
-                    ),
-                    Text(
-                      '지정가 매도 (50%)',
-                      style: _bodyMethodInfoTextStyle,
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      '\$${(data.avg_price * (1 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[0]}주',
-                      style: _bodyMethodInfoTextStyle,
-                    ),
-                    Text(
-                      '\$${(data.avg_price * (1.05 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[1]}주',
-                      style: _bodyMethodInfoTextStyle,
-                    ),
-                    Text(
-                      '\$${(data.avg_price * (1.1 + data.sellFees / 100)).toStringAsFixed(2)} x ${n_sell[2]}주',
-                      style: _bodyMethodInfoTextStyle,
-                    )
-                  ],
-                )
-              ],
-            ),
-          ],
-        ),
-      );
-    } else {
-      return Container();
+      order_list.add(_make_order(
+          method: 'LOC 매도 (25%)',
+          n: n_sell[0],
+          price: data.avg_price * (1 + data.sellFees / 100)));
+      order_list.add(_make_order(
+          method: '지정가 매도 (25%)',
+          n: n_sell[1],
+          price: data.avg_price * (1.05 + data.sellFees / 100)));
+      order_list.add(_make_order(
+          method: '지정가 매도 (50%)',
+          n: n_sell[2],
+          price: data.avg_price * (1.1 + data.sellFees / 100)));
     }
+    return SellTile(orders: order_list);
   }
+}
+
+Map _make_order({
+  required String method,
+  num? price,
+  required int n,
+}) {
+  Map order = {
+    'method': method,
+    'order': price == null ? '$n주' : '\$${price.toStringAsFixed(2)} x $n주',
+  };
+
+  return order;
 }

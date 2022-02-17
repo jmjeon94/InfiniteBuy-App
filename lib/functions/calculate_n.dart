@@ -1,6 +1,6 @@
-List<num> calc_n(num n_total, List ratio) {
-  List<num> n_list = [];
-  var summation = 0;
+List<int> calc_n(num n_total, List ratio) {
+  List<int> n_list = [];
+  int summation = 0;
 
   // 각 비율대로 곱해서 반올림함
   for (num r in ratio) {
@@ -10,12 +10,12 @@ List<num> calc_n(num n_total, List ratio) {
   }
 
   // 마지막 항의 개수를 조절함
-  n_list[n_list.length - 1] += n_total - summation;
+  n_list[n_list.length - 1] += (n_total as int) - summation;
 
   return n_list;
 }
 
-List<num> calc_n_buy(
+List<int> calc_n_buy(
     {required List<double> ratio,
       required num invest_balance,
       required num cur_price,
@@ -28,6 +28,6 @@ List<num> calc_n_buy(
   return n_list;
 }
 
-List<num> calc_n_sell({required List<double> ratio, required n_sell}) {
+List<int> calc_n_sell({required List<double> ratio, required n_sell}) {
   return calc_n(n_sell, ratio);
 }

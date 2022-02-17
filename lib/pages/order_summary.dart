@@ -257,13 +257,17 @@ Map get_orders({required Ticker ticker}) {
   }
 
   if (ver == '1') {
-    // 매수 정보
-    List n_buy_list = calc_n(one_n, [0.5, 0.5]);
-    orders['buy'].add(_make_order(
-        method: 'LOC 매수', price: ticker.avg_price, n: n_buy_list[0]));
-    orders['buy'].add(_make_order(
-        method: 'LOC 매수', price: ticker.cur_price * 1.15, n: n_buy_list[1]));
-
+    // 매수 정보 (평단가와 시중가+15%비교)
+    if (ticker.avg_price > ticker.cur_price * 1.15) {
+      orders['buy'].add(_make_order(
+          method: 'LOC 매수', price: ticker.cur_price * 1.15, n: one_n));
+    } else {
+      List n_buy_list = calc_n(one_n, [0.5, 0.5]);
+      orders['buy'].add(_make_order(
+          method: 'LOC 매수', price: ticker.avg_price, n: n_buy_list[0]));
+      orders['buy'].add(_make_order(
+          method: 'LOC 매수', price: ticker.cur_price * 1.15, n: n_buy_list[1]));
+    }
     // 매도 정보
     orders['sell'].add(_make_order(
         method: '지정가 매도',
@@ -271,12 +275,27 @@ Map get_orders({required Ticker ticker}) {
         n: ticker.n));
   } else if (ver == '2.1') {
     if (process_ratio < 50) {
-      // 전반 매수 정보
-      List n_buy_list = calc_n(one_n, [0.5, 0.5]);
-      orders['buy'].add(_make_order(
-          method: 'LOC 매수', price: ticker.avg_price, n: n_buy_list[0]));
-      orders['buy'].add(_make_order(
-          method: 'LOC 매수', price: ticker.avg_price * 1.05, n: n_buy_list[1]));
+      // 전반 매수 정보 (평단가, 평단가+10%를 시중가+15%와 비교
+      if (ticker.avg_price > ticker.cur_price * 1.15) {
+        orders['buy'].add(_make_order(
+            method: 'LOC 매수', price: ticker.cur_price * 1.15, n: one_n));
+      } else if (ticker.avg_price * 1.05 > ticker.cur_price * 1.15) {
+        List n_buy_list = calc_n(one_n, [0.5, 0.5]);
+        orders['buy'].add(_make_order(
+            method: 'LOC 매수', price: ticker.avg_price, n: n_buy_list[0]));
+        orders['buy'].add(_make_order(
+            method: 'LOC 매수',
+            price: ticker.cur_price * 1.15,
+            n: n_buy_list[1]));
+      } else {
+        List n_buy_list = calc_n(one_n, [0.5, 0.5]);
+        orders['buy'].add(_make_order(
+            method: 'LOC 매수', price: ticker.avg_price, n: n_buy_list[0]));
+        orders['buy'].add(_make_order(
+            method: 'LOC 매수',
+            price: ticker.avg_price * 1.05,
+            n: n_buy_list[1]));
+      }
 
       // 전반 매도 정보
       List n_sell_list = calc_n(ticker.n, [0.25, 0.75]);
@@ -290,9 +309,17 @@ Map get_orders({required Ticker ticker}) {
           n: n_sell_list[1]));
     } else {
       //후반 매수 정보
-      List n_buy_list = calc_n(one_n, [1.0]);
-      orders['buy'].add(_make_order(
-          method: 'LOC 매수', price: ticker.avg_price, n: n_buy_list[0]));
+      if (ticker.avg_price > ticker.cur_price * 1.15) {
+        List n_buy_list = calc_n(one_n, [1.0]);
+        orders['buy'].add(_make_order(
+            method: 'LOC 매수',
+            price: ticker.cur_price * 1.15,
+            n: n_buy_list[0]));
+      } else {
+        List n_buy_list = calc_n(one_n, [1.0]);
+        orders['buy'].add(_make_order(
+            method: 'LOC 매수', price: ticker.avg_price, n: n_buy_list[0]));
+      }
 
       //후반 매도 정보
       List n_sell_list = calc_n(ticker.n, [0.25, 0.25, 0.5]);
