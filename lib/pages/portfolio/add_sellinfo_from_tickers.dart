@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -7,6 +8,12 @@ import 'package:letmebuy/functions/calculate_n.dart';
 import 'package:letmebuy/functions/db_sellinfo.dart';
 import 'package:letmebuy/styles/style.dart';
 import 'package:letmebuy/tickers_controller.dart';
+
+const _dialogTextStyle = TextStyle(fontSize: 17);
+
+_dialogTextProfitStyle(num profit) {
+  return TextStyle(fontSize: 17, color: profit >= 0 ? Colors.red : Colors.blue);
+}
 
 class AddSellInfoFromTickerModal extends StatefulWidget {
   final idx;
@@ -237,10 +244,10 @@ class _AddSellInfoFromTickerModalState
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
 
-                            Get.back();
-
+                            // 매도 개수 계산
                             List nSellList;
                             num nTotalSell = 0;
+                            profit = 0;
 
                             if (_version != '2.1') {
                               nSellList = calc_n(t.n, [1.0]);
@@ -282,46 +289,205 @@ class _AddSellInfoFromTickerModalState
                                   : 0);
                             }
 
-                            // print(nTotalSell);
-                            // 전체 매도 시
-                            if (nTotalSell == 0) {
-                              // 매도 할 게 없는 경우 수정, 삭제하지 않고 스낵바 알림
-                              Get.snackbar(
-                                  '$ticker_name 매도기록 실패', '매도 가능한 수량이 없습니다.',
-                                  colorText: Colors.white,
-                                  duration: Duration(milliseconds: 2000),
-                                  snackPosition: SnackPosition.BOTTOM);
-                            } else if (nTotalSell == t.n) {
-                              // 해당 종목 삭제
-                              c.remove_ticker(idx);
-                              process_ratio = t.process_ratio;
-                            } else {
-                              // 해당 종목 보유 수량 수정
-                              c.update_ticker(idx: idx, n: t.n - nTotalSell);
-                              process_ratio = null;
-                            }
+                            AwesomeDialog(
+                              context: context,
+                              dialogBackgroundColor: fgColor,
+                              dialogType: DialogType.SUCCES,
+                              animType: AnimType.BOTTOMSLIDE,
+                              // customHeader: Container(),
+                              body: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    '매도 정보 확인',
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    height: 30,
+                                  ),
+                                  t.n == nTotalSell
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  '매도수량',
+                                                  style: _dialogTextStyle,
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text('수익률',
+                                                    style: _dialogTextStyle),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text('수익금',
+                                                    style: _dialogTextStyle),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Column(
+                                              children: [
+                                                Text('${nTotalSell}주(전량)',
+                                                    style: _dialogTextStyle),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text(
+                                                    '${(profit / t.buy_balance * 100).toStringAsFixed(1)}%',
+                                                    style:
+                                                        _dialogTextProfitStyle(
+                                                            profit)),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                profit >= 0
+                                                    ? Text(
+                                                        '\$${profit.toStringAsFixed(2)}',
+                                                        style:
+                                                            _dialogTextProfitStyle(
+                                                                profit))
+                                                    : Text(
+                                                        '-\$${(-profit).toStringAsFixed(2)}',
+                                                        style:
+                                                            _dialogTextProfitStyle(
+                                                                profit)),
+                                              ],
+                                            ),
+                                          ],
+                                        )
+                                      : Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                Text('매도수량',
+                                                    style: _dialogTextStyle),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text('보유수량',
+                                                    style: _dialogTextStyle),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text('진행률',
+                                                    style: _dialogTextStyle),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text('수익률',
+                                                    style: _dialogTextStyle),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text('수익금',
+                                                    style: _dialogTextStyle),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Column(
+                                              children: [
+                                                Text('${nTotalSell}주',
+                                                    style: _dialogTextStyle),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text(
+                                                    '${t.n}주 → ${t.n - nTotalSell}주',
+                                                    style: _dialogTextStyle),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text(
+                                                    '${process_ratio.toStringAsFixed(0)}% → ${(t.avg_price * (t.n - nTotalSell) / t.invest_balance * 100).toStringAsFixed(0)}%',
+                                                    style: _dialogTextStyle),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text(
+                                                    '${(profit / t.buy_balance * 100).toStringAsFixed(2)}%',
+                                                    style:
+                                                        _dialogTextProfitStyle(
+                                                            profit)),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                profit >= 0
+                                                    ? Text(
+                                                        '\$${profit.toStringAsFixed(2)}',
+                                                        style:
+                                                            _dialogTextProfitStyle(
+                                                                profit))
+                                                    : Text(
+                                                        '-\$${(-profit).toStringAsFixed(2)}',
+                                                        style:
+                                                            _dialogTextProfitStyle(
+                                                                profit)),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                  SizedBox(
+                                    height: 20,
+                                  )
+                                ],
+                              ),
+                              btnOkText: '확인',
+                              btnOkColor: mainColor,
+                              btnCancelText: '취소',
+                              btnCancelOnPress: () {},
+                              btnOkOnPress: () async {
+                                // bottom sheet 닫기
+                                Get.back();
 
-                            SellInfo si = SellInfo(
-                              idx: await get_last_idx_from_sellinfo_db(),
-                              ticker: ticker_name.toUpperCase(),
-                              start_date:
-                                  '$year_start-$month_start-$date_start',
-                              end_date: '$year_end-$month_end-$date_end',
-                              process_ratio: process_ratio,
-                              profit: profit,
-                            );
+                                // 전량 매도시
+                                if (nTotalSell == t.n) {
+                                  // 해당 종목 삭제
+                                  c.remove_ticker(idx);
+                                  process_ratio = t.process_ratio;
+                                }
+                                // 부분 매도시
+                                else {
+                                  // 해당 종목 보유 수량 수정
+                                  c.update_ticker(
+                                      idx: idx, n: t.n - nTotalSell);
+                                  process_ratio = null;
+                                }
 
-                            // 매도 기록 추가
-                            c.add_sell_info(sellinfo: si, add_db: true);
+                                SellInfo si = SellInfo(
+                                  idx: await get_last_idx_from_sellinfo_db(),
+                                  ticker: ticker_name.toUpperCase(),
+                                  start_date:
+                                      '$year_start-$month_start-$date_start',
+                                  end_date: '$year_end-$month_end-$date_end',
+                                  process_ratio: process_ratio,
+                                  profit: profit,
+                                );
 
-                            // 스낵바 표시
-                            if (nTotalSell > 0) {
-                              Get.snackbar('$ticker_name 매도 기록 완료 \u{2728}',
-                                  '포트폴리오-매도기록에서 확인 가능합니다.',
-                                  colorText: Colors.white,
-                                  duration: Duration(milliseconds: 1500),
-                                  snackPosition: SnackPosition.BOTTOM);
-                            }
+                                // 매도 기록 추가
+                                c.add_sell_info(sellinfo: si, add_db: true);
+
+                                // 스낵바 표시
+                                Get.snackbar('$ticker_name 매도 기록 완료 \u{2728}',
+                                    '포트폴리오-매도기록에서 확인 가능합니다.',
+                                    colorText: Colors.white,
+                                    duration: Duration(milliseconds: 1500),
+                                    snackPosition: SnackPosition.BOTTOM);
+                              },
+                            ).show();
                           }
                         }
                       : null,

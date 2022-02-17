@@ -24,8 +24,6 @@ class _TickerListState extends State<TickerList> {
     Get.to(() => RSIList());
   }
 
-  doNothing() {}
-
   void _onReorder(int oldIndex, int newIndex) {
     if (oldIndex < newIndex) {
       newIndex -= 1;
@@ -213,7 +211,6 @@ class _TickerListState extends State<TickerList> {
                                         )),
                                   ));
                             }),
-
                             Builder(builder: (context) {
                               return Expanded(
                                   flex: 1,
@@ -285,63 +282,6 @@ class _TickerListState extends State<TickerList> {
                                         )),
                                   ));
                             }),
-
-                            // SlidableAction(
-                            //   onPressed: (context) {
-                            //     showModalBottomSheet<void>(
-                            //       isScrollControlled: true,
-                            //       context: context,
-                            //       builder: (BuildContext context) {
-                            //         return Padding(
-                            //           padding:
-                            //               MediaQuery.of(context).viewInsets,
-                            //           child: AddSellInfoFromTickerModal(idx),
-                            //         );
-                            //       },
-                            //     );
-                            //   },
-                            //   backgroundColor: mainColor, //Color(0xFF0392CF),
-                            //   foregroundColor: Colors.white,
-                            //   icon: Icons.attach_money,
-                            //   label: '매도',
-                            // ),
-                            // SlidableAction(
-                            //   onPressed: (context) async {
-                            //     return await showDialog(
-                            //       context: context,
-                            //       builder: (BuildContext context) {
-                            //         return AlertDialog(
-                            //           backgroundColor: btnColorGrey,
-                            //           title: Text(
-                            //             '확인',
-                            //           ),
-                            //           content: const Text(
-                            //             '해당 종목을 삭제 하시겠습니까?',
-                            //             textAlign: TextAlign.center,
-                            //           ),
-                            //           actions: <Widget>[
-                            //             TextButton(
-                            //               onPressed: () =>
-                            //                   Navigator.pop(context, false),
-                            //               child: const Text('취소'),
-                            //             ),
-                            //             TextButton(
-                            //               onPressed: () {
-                            //                 c.remove_ticker(idx);
-                            //                 Navigator.pop(context, true);
-                            //               },
-                            //               child: const Text('삭제'),
-                            //             ),
-                            //           ],
-                            //         );
-                            //       },
-                            //     );
-                            //   },
-                            //   backgroundColor: Color(0xFFFE4A49),
-                            //   foregroundColor: Colors.white,
-                            //   icon: Icons.delete,
-                            //   label: '삭제',
-                            // ),
                           ],
                         ),
 
