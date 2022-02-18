@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:letmebuy/pages/portfolio/add_sellinfo_from_tickers.dart';
@@ -211,43 +212,65 @@ class _TickerListState extends State<TickerList> {
                                         )),
                                   ));
                             }),
-                            Builder(builder: (context) {
+                            Builder(builder: (ctx) {
                               return Expanded(
                                   flex: 1,
                                   child: GestureDetector(
                                     onTap: () async {
-                                      // slidable 닫기
-                                      Slidable.of(context)?.close();
 
-                                      return await showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            backgroundColor: btnColorGrey,
-                                            title: Text(
-                                              '확인',
-                                            ),
-                                            content: const Text(
-                                              '해당 종목을 삭제 하시겠습니까?',
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                onPressed: () => Navigator.pop(
-                                                    context, false),
-                                                child: const Text('취소'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  c.remove_ticker(idx);
-                                                  Navigator.pop(context, true);
-                                                },
-                                                child: const Text('삭제'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
+                                      // slidable 닫기
+                                      Slidable.of(ctx)?.close();
+
+                                      AwesomeDialog(
+                                              context: context,
+                                              dialogType: DialogType.INFO_REVERSED,
+                                              animType: AnimType.BOTTOMSLIDE,
+                                              headerAnimationLoop: false,
+                                              title: '삭제 확인',
+                                              desc:
+                                                  '${c.tickers[idx].name} 종목을 삭제하시겠습니까?',
+                                              dialogBackgroundColor: fgColor,
+                                              btnCancelOnPress: () {
+                                              },
+                                              btnOkOnPress: () {
+                                                c.remove_ticker(idx);
+                                              },
+                                              btnOkColor: mainColor,
+                                              btnOkText: '삭제',
+                                              btnCancelText: '취소')
+                                          .show();
+
+
+
+                                      // return await showDialog(
+                                      //   context: context,
+                                      //   builder: (BuildContext context) {
+                                      //     return AlertDialog(
+                                      //       backgroundColor: btnColorGrey,
+                                      //       title: Text(
+                                      //         '확인',
+                                      //       ),
+                                      //       content: const Text(
+                                      //         '해당 종목을 삭제 하시겠습니까?',
+                                      //         textAlign: TextAlign.center,
+                                      //       ),
+                                      //       actions: <Widget>[
+                                      //         TextButton(
+                                      //           onPressed: () => Navigator.pop(
+                                      //               context, false),
+                                      //           child: const Text('취소'),
+                                      //         ),
+                                      //         TextButton(
+                                      //           onPressed: () {
+                                      //             c.remove_ticker(idx);
+                                      //             Navigator.pop(context, true);
+                                      //           },
+                                      //           child: const Text('삭제'),
+                                      //         ),
+                                      //       ],
+                                      //     );
+                                      //   },
+                                      // );
                                     },
                                     child: Container(
                                         margin: EdgeInsets.only(

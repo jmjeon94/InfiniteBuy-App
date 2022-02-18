@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letmebuy/pages/add_ticker.dart';
@@ -110,21 +111,24 @@ class Header extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: () async {
-                      return await showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            backgroundColor: btnColorGrey,
-                            title: Center(child: Text('상태 설명')),
-                            content: Container(
-                              height: 150,
-                              child: Column(
+                      AwesomeDialog(
+                              context: context,
+                              dialogType: DialogType.NO_HEADER,
+                              animType: AnimType.BOTTOMSLIDE,
+                              headerAnimationLoop: false,
+                              body: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
+                                  Text(
+                                    '상태 설명',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -160,18 +164,81 @@ class Header extends StatelessWidget {
                                       const Text('  RSI 증감 >  0'),
                                     ],
                                   ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
                                 ],
                               ),
-                            ),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, true),
-                                child: const Text('확인'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                              dialogBackgroundColor: fgColor,
+                              width: 350,
+                              btnOkOnPress: () {},
+                              btnOkText: '닫기',
+                              btnOkColor: mainColor
+                              )
+                          .show();
+
+                      // return await showDialog(
+                      //   context: context,
+                      //   builder: (BuildContext context) {
+                      //     return AlertDialog(
+                      //       shape: RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.circular(20),
+                      //       ),
+                      //       backgroundColor: btnColorGrey,
+                      //       title: Center(child: Text('상태 설명')),
+                      //       content: Container(
+                      //         height: 150,
+                      //         child: Column(
+                      //           mainAxisAlignment: MainAxisAlignment.center,
+                      //           crossAxisAlignment: CrossAxisAlignment.center,
+                      //           children: [
+                      //             Row(
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               children: [
+                      //                 get_rsi_icon(-30),
+                      //                 const Text('  RSI 증감 < -15'),
+                      //               ],
+                      //             ),
+                      //             SizedBox(
+                      //               height: 10,
+                      //             ),
+                      //             Row(
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               children: [
+                      //                 get_rsi_icon(-10),
+                      //                 const Text('  RSI 증감 < -5'),
+                      //               ],
+                      //             ),
+                      //             SizedBox(height: 10),
+                      //             Row(
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               children: [
+                      //                 get_rsi_icon(-5),
+                      //                 const Text('  RSI 증감 <  0'),
+                      //               ],
+                      //             ),
+                      //             SizedBox(
+                      //               height: 10,
+                      //             ),
+                      //             Row(
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               children: [
+                      //                 get_rsi_icon(10),
+                      //                 const Text('  RSI 증감 >  0'),
+                      //               ],
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //       actions: <Widget>[
+                      //         TextButton(
+                      //           onPressed: () => Navigator.pop(context, true),
+                      //           child: const Text('확인'),
+                      //         ),
+                      //       ],
+                      //     );
+                      //   },
+                      // );
                     },
                     icon: Icon(Icons.help_outline),
                     color: fontColorTitleGrey,

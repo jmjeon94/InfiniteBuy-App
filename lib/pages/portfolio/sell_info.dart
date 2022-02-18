@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:letmebuy/pages/portfolio/add_sellinfo.dart';
@@ -59,38 +60,23 @@ class SellInfoPage extends StatelessWidget {
 
                           return false;
                         } else if (direction == DismissDirection.endToStart) {
-                          return await showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                backgroundColor: btnColorGrey,
-                                title: Text(
-                                  '확인',
-                                ),
-                                content: const Text(
-                                  '해당 데이터를 삭제 하시겠습니까?',
-                                  textAlign: TextAlign.center,
-                                ),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(context, false),
-                                    child: const Text('취소'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(context, true),
-                                    child: const Text('삭제'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        }
-                      },
-                      onDismissed: (direction) {
-                        if (direction == DismissDirection.endToStart) {
-                          c.remove_sell_info(c.sell_info_list[idx].idx);
+                          AwesomeDialog(
+                                  context: context,
+                                  dialogType: DialogType.QUESTION,
+                                  animType: AnimType.BOTTOMSLIDE,
+                                  headerAnimationLoop: false,
+                                  title: '삭제 확인',
+                                  desc: '해당 데이터를 삭제하시겠습니까?',
+                                  dialogBackgroundColor: fgColor,
+                                  btnCancelOnPress: () {
+                                  },
+                                  btnOkOnPress: () {
+                                    c.remove_sell_info(c.sell_info_list[idx].idx);
+                                  },
+                                  btnOkColor: mainColor,
+                                  btnOkText: '삭제',
+                                  btnCancelText: '취소')
+                              .show();
                         }
                       },
                       child: ListTile(
