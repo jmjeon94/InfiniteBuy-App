@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:letmebuy/functions/versions.dart';
+import 'package:letmebuy/pages/qna_page.dart';
 import 'package:letmebuy/styles/style.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:math' as math;
@@ -26,7 +27,12 @@ class SettingPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.end,
-              children: [Text('v$CUR_VERSION', style: TextStyle(color: fontColorTitleGrey),)],
+              children: [
+                Text(
+                  'v$CUR_VERSION',
+                  style: TextStyle(color: fontColorTitleGrey),
+                )
+              ],
             ),
           ),
         )
@@ -85,6 +91,12 @@ class Menus extends StatelessWidget {
     return Column(
       children: [
         _MenuDivider(),
+        // _QNABtn(),
+        // _MenuDivider(),
+        // _MenuURLTile(
+        //     text: 'QnA 확인하기',
+        //     url: 'https://glow-femur-b20.notion.site/FAQ-7353e2b1b62b4fa8a3b3c5f8a15b79bc'),
+        _MenuDivider(),
         _MenuURLTile(
             text: '무한매수법 카페 바로가기',
             url: 'https://cafe.naver.com/infinitebuying'),
@@ -104,6 +116,25 @@ class Menus extends StatelessWidget {
       ],
     );
   }
+}
+
+Widget _QNABtn() {
+  return InkWell(
+    onTap: () {
+      Get.to(() => QNAPage());
+    },
+    child: Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(left: 20),
+      height: 65,
+      alignment: Alignment.centerLeft,
+      child: Text(
+        'FAQ 확인하기',
+        textAlign: TextAlign.left,
+        style: TextStyle(color: fontColorGrey, fontSize: 18),
+      ),
+    ),
+  );
 }
 
 Widget _MenuFuncTile({required BuildContext context, required String text}) {
